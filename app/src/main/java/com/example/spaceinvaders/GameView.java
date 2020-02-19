@@ -1,12 +1,12 @@
 package com.example.spaceinvaders;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.util.ArrayList;
 
 /**
  * The GameView.
@@ -15,6 +15,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
     private Player player;
+    private int count = 30;
+
+    private Context context;
+
+    private ArrayList<Laser> lasers = new ArrayList<>();
 
     /**
      * Each time this class is called to create a new object (our surface), it will
@@ -23,6 +28,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameView(Context context) {
         super(context);
+        this.context = context;
         getHolder().addCallback(this); //adding callback to intercept events (intercept = abfangen).
 
         thread = new MainThread(getHolder(), this);
@@ -37,12 +43,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
-        player = new Player(BitmapFactory.decodeResource(getResources(),R.drawable.player));
+        player = new Player(context);
         thread.start();
     }
 
     /**
      * TODO
+     *
      * @param holder Holds the surface of the display.
      * @param format
      * @param width
@@ -77,6 +84,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void update() {
         player.update();
+
+        for(Laser laser : lasers){
+            laser.update();
+        }
     }
 
     /**
@@ -85,12 +96,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     @Override
     public void draw(Canvas canvas) {
-
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.DKGRAY);
-            Paint paint = new Paint();
             player.draw(canvas);
+            if(count == 0){
+                count = 30;
+                lasers.add(new Laser(context, player.getxCoord(), player.getyCoord(), false));
+            }else{
+                count--;
+            }
+            for(Laser laser : lasers){
+                laser.draw(canvas);
+            }
         }
+
+
     }
 }

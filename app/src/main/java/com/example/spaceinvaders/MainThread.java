@@ -5,21 +5,30 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- *
+ * TODO
  */
 public class MainThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
     private boolean running;
-    public static Canvas canvas; //Leinwand
+    private static Canvas canvas; //Leinwand
 
+    /**
+     * TODO
+     *
+     * @param surfaceHolder
+     * @param gameView
+     */
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView){
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void run(){
         while (running){
@@ -43,7 +52,6 @@ public class MainThread extends Thread {
                 }
             }
         }
-
     }
 
     /**

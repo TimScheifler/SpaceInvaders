@@ -1,7 +1,9 @@
 package com.example.spaceinvaders;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 /**
@@ -13,34 +15,31 @@ public class Player {
     private int xCoord;
     private int yCoord;
 
+
     private int xVelocity = 10;
-    private int yVelocity = 5;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     /**
      * TODO
-     *
-     * @param image
      */
-    public Player(Bitmap image){
-        this.image = image;
+    public Player(Context context){
+        this.image = BitmapFactory.decodeResource(context.getResources(),R.drawable.player);
         xCoord = screenWidth / 2;
         yCoord = screenHeight - image.getHeight()*2;
     }
 
     /**
-     * TODO
+     * Draws the Player.
      *
      * @param canvas
      */
     public void draw(Canvas canvas){
-        canvas.drawBitmap(image,xCoord,yCoord,null);
-
+        canvas.drawBitmap(image, xCoord, yCoord,null);
     }
 
     /**
-     * TODO
+     * Updates the player.
      */
     public void update(){
         updateTest();
@@ -51,5 +50,19 @@ public class Player {
             xVelocity = xVelocity * -1;
         }
         xCoord += xVelocity;
+    }
+
+    /**
+     * @return current xCoord of the Player.
+     */
+    public int getxCoord() {
+        return xCoord;
+    }
+
+    /**
+     * @return current yCoord of the Player.
+     */
+    public int getyCoord() {
+        return yCoord;
     }
 }
