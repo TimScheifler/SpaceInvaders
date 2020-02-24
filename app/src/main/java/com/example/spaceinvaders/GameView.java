@@ -1,12 +1,12 @@
 package com.example.spaceinvaders;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import java.util.ArrayList;
 
 /**
  * The GameView.
@@ -14,12 +14,8 @@ import java.util.ArrayList;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private Player player;
-    private int count = 30;
-
     private Context context;
-
-    private ArrayList<Laser> lasers = new ArrayList<>();
+    private GameObjectHandler gameObjectHandler;
 
     /**
      * Each time this class is called to create a new object (our surface), it will
@@ -30,7 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
         this.context = context;
         getHolder().addCallback(this); //adding callback to intercept events (intercept = abfangen).
-
+        gameObjectHandler = new GameObjectHandler(context);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
     }
@@ -43,7 +39,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
-        player = new Player(context);
         thread.start();
     }
 
@@ -51,9 +46,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * TODO
      *
      * @param holder Holds the surface of the display.
-     * @param format
-     * @param width
-     * @param height
+     * @param format The format of the surface.
+     * @param width The width of the surface.
+     * @param height The height of the surface.
      */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -83,34 +78,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * Updates the display.
      */
     public void update() {
-        player.update();
-
-        for(Laser laser : lasers){
-            laser.update();
-        }
+        gameObjectHandler.update();
     }
 
     /**
+     * Draws the Sprites.
      *
-     * @param canvas
+     * @param canvas The canvas.
      */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
+        //OLD
         if(canvas != null){
             canvas.drawColor(Color.DKGRAY);
-            player.draw(canvas);
-            if(count == 0){
-                count = 30;
-                lasers.add(new Laser(context, player.getxCoord(), player.getyCoord(), false));
-            }else{
-                count--;
-            }
-            for(Laser laser : lasers){
-                laser.draw(canvas);
-            }
+            gameObjectHandler.draw(canvas);
         }
-
-
     }
 }
