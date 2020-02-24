@@ -1,11 +1,13 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class SpaceInvadersActivity extends Activity {
+import com.example.spaceinvaders.GameView;
+
+public class GameActivity  extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,5 +17,4 @@ public class SpaceInvadersActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new GameView(this));
     }
-
 }
