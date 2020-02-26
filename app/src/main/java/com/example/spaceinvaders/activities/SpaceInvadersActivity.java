@@ -16,15 +16,25 @@ public class SpaceInvadersActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Button startButton = (Button)findViewById(R.id.start_game_button);
+        Button settingsButton = (Button)findViewById(R.id.settings_button);
 
         startButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                Intent skipVerificationBlaBla =
-                        new Intent(SpaceInvadersActivity.this, GameActivity.class);
-                startActivityForResult(skipVerificationBlaBla,1);
+                startActivity(GameActivity.class);
             }
         });
+        settingsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(SettingsActivity.class);
+            }
+        });
+    }
+
+    private void startActivity(Class nextClass){
+        Intent intent =
+                new Intent(SpaceInvadersActivity.this, nextClass);
+        startActivityForResult(intent,1);
     }
 }
