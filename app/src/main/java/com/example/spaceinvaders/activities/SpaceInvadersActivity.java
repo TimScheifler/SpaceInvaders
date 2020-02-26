@@ -16,6 +16,7 @@ public class SpaceInvadersActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Button startButton = (Button)findViewById(R.id.start_game_button);
+
         startButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -26,5 +27,4 @@ public class SpaceInvadersActivity extends Activity {
             }
         });
     }
-
 }

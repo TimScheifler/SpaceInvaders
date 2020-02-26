@@ -24,7 +24,7 @@
     <Button
         android:id="@+id/start_game_button"
         android:layout_width="210dp"
-        android:layout_height="0dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="24dp"
         android:text="@string/start_game"
         app:layout_constraintBottom_toTopOf="@+id/score_button"
@@ -35,18 +35,19 @@
     <Button
         android:id="@+id/settings_button"
         android:layout_width="216dp"
-        android:layout_height="0dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="338dp"
         android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_button" />
 
     <Button
         android:id="@+id/score_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="216dp"
+        android:layout_height="43dp"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="26dp"
