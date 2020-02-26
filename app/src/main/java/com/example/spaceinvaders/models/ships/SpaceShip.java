@@ -1,6 +1,7 @@
 package com.example.spaceinvaders.models.ships;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.widget.Space;
@@ -88,6 +89,13 @@ public abstract class SpaceShip extends GameObject {
     }
 
     void shootLaser(Bitmap laserBitmap, int laserSpeed){
+        if(isPlayer){
+            createNewLaser(laserBitmap, -laserSpeed);
+        }else{
+            createNewLaser(laserBitmap, laserSpeed);
+        }
+    }
+    private void createNewLaser(Bitmap laserBitmap, int laserSpeed){
         lasers.add(new Laser(laserBitmap, getxPosition(), getyPosition(), laserSpeed, damage, isPlayer));
     }
 

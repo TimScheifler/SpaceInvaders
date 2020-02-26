@@ -12,8 +12,12 @@ public abstract class GameObject {
     private int xPosition, yPosition;
     private int xVelocity, yVelocity;
 
+    private boolean collidable;
+
     private final int width;
     private final int height;
+
+    //Collisiondetectorsystem
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;

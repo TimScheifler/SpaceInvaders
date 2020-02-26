@@ -21,7 +21,7 @@ public class Player extends SpaceShip {
         super.update();
 
         if(laserIsCharged()){
-            shootLaser(laser, 20 * -1);
+            shootLaser(laser, 20);
         }
     }
 }
