@@ -15,8 +15,9 @@ public class SpaceInvadersActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button startButton = (Button)findViewById(R.id.start_game_button);
-        Button settingsButton = (Button)findViewById(R.id.settings_button);
+        final Button startButton = findViewById(R.id.start_game_button);
+        Button settingsButton = findViewById(R.id.settings_button);
+        Button highscoreButton = findViewById(R.id.score_button);
 
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -28,6 +29,12 @@ public class SpaceInvadersActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(SettingsActivity.class);
+            }
+        });
+        highscoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(HighscoreActivity.class);
             }
         });
     }

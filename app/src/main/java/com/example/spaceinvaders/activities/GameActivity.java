@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.example.spaceinvaders.GameView;
 
-public class GameActivity  extends Activity {
+public class GameActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
