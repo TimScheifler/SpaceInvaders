@@ -5,29 +5,29 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 /**
- * TODO
+ * The MainThread.
  */
 public class MainThread extends Thread {
 
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private GameView gameView;
     private boolean running;
     private static Canvas canvas; //Leinwand
 
     /**
-     * TODO
+     * The Constructor of the MainThread.
      *
-     * @param surfaceHolder
-     * @param gameView
+     * @param surfaceHolder The SurfaceHolder.
+     * @param gameView The GameView.
      */
-    public MainThread(SurfaceHolder surfaceHolder, GameView gameView){
+    MainThread(SurfaceHolder surfaceHolder, GameView gameView){
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
     }
 
     /**
-     * TODO
+     * The running-Loop.
      */
     @Override
     public void run(){
@@ -56,9 +56,10 @@ public class MainThread extends Thread {
 
     /**
      * Setter for "running".
+     *
      * @param running Boolean to decide whether or not to run our canvas.
      */
-    public void setRunning(boolean running) {
+    void setRunning(boolean running) {
         this.running = running;
     }
 }

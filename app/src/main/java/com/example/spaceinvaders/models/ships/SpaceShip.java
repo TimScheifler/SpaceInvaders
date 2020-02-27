@@ -6,25 +6,43 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.widget.Space;
 
+import com.example.spaceinvaders.Position;
 import com.example.spaceinvaders.models.GameObject;
 import com.example.spaceinvaders.models.lasers.Laser;
 
+/**
+ * A SpaceShip.
+ */
 public abstract class SpaceShip extends GameObject {
 
     private final Bitmap laserImage;
     private int attackSpeed;
     private int charger = 0;
     private int damage;
-    private boolean isPlayer;
+    private final boolean isPlayer;
 
-    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, int xPos, int yPos, int xSpeed, int ySpeed, int attackSpeed) {
-        super(image, xPos, yPos, xSpeed, ySpeed);
+    /**
+     *
+     * @param image
+     * @param laserImage
+     * @param isPlayer
+     * @param position
+     * @param xVelocity
+     * @param yVelocity
+     * @param attackSpeed
+     */
+    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, Position position, int xVelocity, int yVelocity, int attackSpeed) {
+        super(image, position, xVelocity, yVelocity);
+
         this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
         this.damage = attackSpeed / 2;
         this.isPlayer = isPlayer;
     }
 
+    /**
+     *
+     */
     public void update(){
         if(gameObjectReachedSideBoarder()){
             changeXVelocity();
@@ -33,16 +51,19 @@ public abstract class SpaceShip extends GameObject {
         //removeLaserOutsideOfScreen(); //TODO
     }
 
-    private void updatePosition(){
-        updateXPosition();
-        updateYPosition();
-    }
-
+    /**
+     *
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas){
-        canvas.drawBitmap(getImage(), getxPosition(), getyPosition(), null);
+        canvas.drawBitmap(getImage(), position.getX(), position.getY(), null);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean laserIsCharged(){
         if(charger >= attackSpeed) {
             charger = 0;
@@ -53,6 +74,12 @@ public abstract class SpaceShip extends GameObject {
         }
     }
 
+    /**
+     *
+     * @param laserBitmap
+     * @param laserSpeed
+     * @return
+     */
     public Laser shootLaser(Bitmap laserBitmap, int laserSpeed){
         if(isPlayer){
             return getNewLaser(laserBitmap, -laserSpeed);
@@ -60,18 +87,34 @@ public abstract class SpaceShip extends GameObject {
             return getNewLaser(laserBitmap, laserSpeed);
         }
     }
+
     private Laser getNewLaser(Bitmap laserBitmap, int laserSpeed){
-        return new Laser(laserBitmap, getxPosition(), getyPosition(), laserSpeed, damage, isPlayer);
+        return new Laser(laserBitmap, new Position(position.getX(),position.getY()), laserSpeed, damage, isPlayer);
     }
 
+    /**
+     * Getter of attackSpeed.
+     *
+     * @return the AttackSpeed of a SpaceShip.
+     */
     public int getAttackSpeed() {
         return attackSpeed;
     }
 
+    /**
+     * Setter of attackSpeed.
+     *
+     * @param attackSpeed the new AttackSpeed.
+     */
     public void setAttackSpeed(int attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
 
+    /**
+     * Getter of the LaserImage.
+     *
+     * @return The laserImage.
+     */
     public Bitmap getLaserImage() {
         return laserImage;
     }

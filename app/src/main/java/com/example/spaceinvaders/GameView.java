@@ -1,10 +1,8 @@
 package com.example.spaceinvaders;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -32,7 +30,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Creats the surface.
+     * This is called immediately after the surface is first created.
      *
      * @param holder Holds the surface of the display.
      */
@@ -43,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * TODO
+     * This is called immediately after any structural changes have been made to the surface.
      *
      * @param holder Holds the surface of the display.
      * @param format The format of the surface.
@@ -56,7 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Destroys the surface.
+     * This is called immediately before a surface is being destroyed.
      *
      * @param holder Holds the surface of the display.
      */

@@ -4,10 +4,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.example.spaceinvaders.Position;
+
+/**
+ * A GameObject.
+ */
 public abstract class GameObject {
 
     private final Bitmap image;
-    private int xPosition, yPosition;
+    protected Position position;
     private int xVelocity, yVelocity;
 
     private boolean collidable;
@@ -20,60 +25,48 @@ public abstract class GameObject {
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    public GameObject(Bitmap image, int xPosition, int yPosition, int xVelocity, int yVelocity){
+    public GameObject(Bitmap image, Position position, int xVelocity, int yVelocity){
         this.image = image;
         this.width = image.getWidth();
         this.height = image.getHeight();
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+        this.position = position;
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
         this.collidable = true; //TODO add functionality
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(image, xPosition, yPosition, null);
+        canvas.drawBitmap(image, position.getX(), position.getY(), null);
     }
 
     public boolean gameObjectReachedSideBoarder(){
-        return xPosition + image.getWidth() >= screenWidth || xPosition <= 0;
+        return position.getX() + image.getWidth() >= screenWidth || position.getX() <= 0;
     }
 
     public boolean gameObjectLeavesScreen(){
-        return yPosition <= -100
-                || yPosition >= screenHeight;
+        return position.getY() <= -100
+                || position.getY() >= screenHeight;
     }
 
     public void changeXVelocity(){
         xVelocity = xVelocity * -1;
     }
 
-    public void updateXPosition(){
-        xPosition += xVelocity;
-    }
-
-    public void updateYPosition(){
-        yPosition += yVelocity;
+    public void updatePosition() {
+        position.updateXByDistance(xVelocity);
+        position.updateYByDistance(yVelocity);
     }
 
     public Bitmap getImage() {
         return image;
     }
 
-    public int getxPosition() {
-        return xPosition;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setxPosition(int xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    public int getyPosition() {
-        return yPosition;
-    }
-
-    public void setyPosition(int yPosition) {
-        this.yPosition = yPosition;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public int getxVelocity() {

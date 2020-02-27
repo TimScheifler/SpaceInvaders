@@ -31,7 +31,7 @@ class GameObjectHandler {
         remainingEnemies = totalAmountOfEnemies;
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        Player player = new Player(context, screenWidth / 2, screenHeight - 200, 10, 0, 20);
+        Player player = new Player(context, new Position(screenWidth / 2, screenHeight - 200), 10, 0, 20);
         spaceShips.add(player);
     }
 
@@ -41,7 +41,7 @@ class GameObjectHandler {
         for(SpaceShip spaceShip : spaceShips){
             spaceShip.update();
             if(spaceShip.laserIsCharged()){
-                lasers.add(spaceShip.shootLaser(spaceShip.getLaserImage(), 10));
+                lasers.add(spaceShip.shootLaser(spaceShip.getLaserImage(), 8));
             }
         }
 
@@ -53,7 +53,8 @@ class GameObjectHandler {
                 lasersToRemove.add(laser);
             }
         }
-        //TODO check if this really removes the Object (think)
+
+        //TODO check if this really removes the Object (think...)
         for(Laser laser : lasersToRemove){
             lasers.remove(laser);
             Log.i("REMOVED", "Successfully removed Laser");
@@ -70,10 +71,10 @@ class GameObjectHandler {
         printInformationOnCanvas(canvas);
     }
 
-    private void removeLaserOutsideOfScreen(){
+    private void removeLasersOutsideOfScreen(){
         ArrayList<Laser> lasersToRemove = new ArrayList<>();
         for(Laser laser : lasers){
-            if(laserLeftScreen(laser)){
+            if(isLaserOutsideOfScreen(laser)){
                 lasersToRemove.add(laser);
             }
         }
@@ -81,7 +82,7 @@ class GameObjectHandler {
             lasers.remove(laser);
         }
     }
-    private boolean laserLeftScreen(Laser laser){
+    private boolean isLaserOutsideOfScreen(Laser laser){
         return laser.gameObjectLeavesScreen();
     }
 
@@ -116,7 +117,7 @@ class GameObjectHandler {
         }else{
             if(enemyTimer == 0){
                 enemyTimer = 100;
-                spaceShips.add(new Invader(context,300,0,10,3,33));
+                spaceShips.add(new Invader(context,new Position(300,0),10,3,33));
                 remainingEnemies--;
             }else{
                 enemyTimer--;

@@ -7,8 +7,18 @@ import android.widget.Button;
 
 import com.example.spaceinvaders.R;
 
+/**
+ * The HighscoreActivity.
+ */
 public class HighscoreActivity extends Activity {
 
+    /**
+     * Called when HighscoreActivity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                           being shut down then this Bundle contains the data it most
+     *                           recently supplied
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
