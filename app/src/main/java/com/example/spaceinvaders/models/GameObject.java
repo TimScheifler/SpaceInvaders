@@ -4,8 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import java.util.ArrayList;
-
 public abstract class GameObject {
 
     private final Bitmap image;
@@ -30,6 +28,7 @@ public abstract class GameObject {
         this.yPosition = yPosition;
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
+        this.collidable = true; //TODO add functionality
     }
 
     public void draw(Canvas canvas){

@@ -9,25 +9,20 @@ import android.widget.Space;
 import com.example.spaceinvaders.models.GameObject;
 import com.example.spaceinvaders.models.lasers.Laser;
 
-import java.util.ArrayList;
-
 public abstract class SpaceShip extends GameObject {
 
+    private final Bitmap laserImage;
     private int attackSpeed;
     private int charger = 0;
     private int damage;
-
     private boolean isPlayer;
 
-    private ArrayList<Laser> lasers;
-
-    SpaceShip(Bitmap image, boolean isPlayer, int xPos, int yPos, int xSpeed, int ySpeed, int attackSpeed) {
+    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, int xPos, int yPos, int xSpeed, int ySpeed, int attackSpeed) {
         super(image, xPos, yPos, xSpeed, ySpeed);
-
+        this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
         this.damage = attackSpeed / 2;
         this.isPlayer = isPlayer;
-        this.lasers = new ArrayList<>();
     }
 
     public void update(){
@@ -35,50 +30,20 @@ public abstract class SpaceShip extends GameObject {
             changeXVelocity();
         }
         updatePosition();
-        removeLaserOutsideOfScreen();
-    }
-
-    private void removeLaserOutsideOfScreen(){
-        ArrayList<Laser> lasersToRemove = new ArrayList<>();
-        for(Laser laser : lasers){
-            if(laserLeftScreen(laser)){
-                lasersToRemove.add(laser);
-            }
-        }
-        for(Laser laser : lasersToRemove){
-            lasers.remove(laser);
-        }
-    }
-
-    private boolean laserLeftScreen(Laser laser){
-        return laser.gameObjectLeavesScreen();
+        //removeLaserOutsideOfScreen(); //TODO
     }
 
     private void updatePosition(){
         updateXPosition();
         updateYPosition();
-        updateLasers();
-    }
-
-    private void updateLasers(){
-        for (Laser laser : lasers){
-            laser.update();
-        }
     }
 
     @Override
     public void draw(Canvas canvas){
-        drawLasers(canvas);
         canvas.drawBitmap(getImage(), getxPosition(), getyPosition(), null);
     }
 
-    private void drawLasers(Canvas canvas){
-        for(Laser laser : lasers){
-            laser.draw(canvas);
-        }
-    }
-
-    boolean laserIsCharged(){
+    public boolean laserIsCharged(){
         if(charger >= attackSpeed) {
             charger = 0;
             return true;
@@ -88,15 +53,15 @@ public abstract class SpaceShip extends GameObject {
         }
     }
 
-    void shootLaser(Bitmap laserBitmap, int laserSpeed){
+    public Laser shootLaser(Bitmap laserBitmap, int laserSpeed){
         if(isPlayer){
-            createNewLaser(laserBitmap, -laserSpeed);
+            return getNewLaser(laserBitmap, -laserSpeed);
         }else{
-            createNewLaser(laserBitmap, laserSpeed);
+            return getNewLaser(laserBitmap, laserSpeed);
         }
     }
-    private void createNewLaser(Bitmap laserBitmap, int laserSpeed){
-        lasers.add(new Laser(laserBitmap, getxPosition(), getyPosition(), laserSpeed, damage, isPlayer));
+    private Laser getNewLaser(Bitmap laserBitmap, int laserSpeed){
+        return new Laser(laserBitmap, getxPosition(), getyPosition(), laserSpeed, damage, isPlayer);
     }
 
     public int getAttackSpeed() {
@@ -107,11 +72,7 @@ public abstract class SpaceShip extends GameObject {
         this.attackSpeed = attackSpeed;
     }
 
-    public ArrayList<Laser> getLasers() {
-        return lasers;
-    }
-
-    public void setLasers(ArrayList<Laser> lasers) {
-        this.lasers = lasers;
+    public Bitmap getLaserImage() {
+        return laserImage;
     }
 }

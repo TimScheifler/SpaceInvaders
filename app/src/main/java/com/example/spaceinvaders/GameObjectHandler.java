@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 
 import com.example.spaceinvaders.models.lasers.Laser;
@@ -14,27 +13,25 @@ import com.example.spaceinvaders.models.ships.SpaceShip;
 
 import java.util.ArrayList;
 
-public class GameObjectHandler {
+class GameObjectHandler {
 
-    private Player player;
     private ArrayList<SpaceShip> spaceShips = new ArrayList<>();
+    private ArrayList<Laser> lasers = new ArrayList<>();
 
     private Context context;
     private int waveCounter;
     private int totalAmountOfEnemies;
     private int remainingEnemies;
-
     private int enemyTimer = 100;
-
-    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     GameObjectHandler(Context context){
         this.context = context;
         waveCounter = 1;
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
-        player = new Player(context, screenWidth / 2,screenHeight - 200,10, 0, 20);
+        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        Player player = new Player(context, screenWidth / 2, screenHeight - 200, 10, 0, 20);
         spaceShips.add(player);
     }
 
@@ -43,6 +40,23 @@ public class GameObjectHandler {
         removeSpaceShipsOutsideOfScreen();
         for(SpaceShip spaceShip : spaceShips){
             spaceShip.update();
+            if(spaceShip.laserIsCharged()){
+                lasers.add(spaceShip.shootLaser(spaceShip.getLaserImage(), 10));
+            }
+        }
+
+        //own method...
+        ArrayList<Laser> lasersToRemove = new ArrayList<>();
+        for(Laser laser : lasers){
+            laser.update();
+            if(laser.gameObjectLeavesScreen()){
+                lasersToRemove.add(laser);
+            }
+        }
+        //TODO check if this really removes the Object (think)
+        for(Laser laser : lasersToRemove){
+            lasers.remove(laser);
+            Log.i("REMOVED", "Successfully removed Laser");
         }
     }
 
@@ -50,7 +64,25 @@ public class GameObjectHandler {
         for(SpaceShip spaceShip : spaceShips){
             spaceShip.draw(canvas);
         }
-        writeStuffOnCanvas(canvas);
+        for(Laser laser : lasers){
+            laser.draw(canvas);
+        }
+        printInformationOnCanvas(canvas);
+    }
+
+    private void removeLaserOutsideOfScreen(){
+        ArrayList<Laser> lasersToRemove = new ArrayList<>();
+        for(Laser laser : lasers){
+            if(laserLeftScreen(laser)){
+                lasersToRemove.add(laser);
+            }
+        }
+        for(Laser laser : lasersToRemove){
+            lasers.remove(laser);
+        }
+    }
+    private boolean laserLeftScreen(Laser laser){
+        return laser.gameObjectLeavesScreen();
     }
 
     private void removeSpaceShipsOutsideOfScreen(){
@@ -66,7 +98,7 @@ public class GameObjectHandler {
         }
     }
 
-    void writeStuffOnCanvas(Canvas canvas){
+    private void printInformationOnCanvas(Canvas canvas){
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(30);
