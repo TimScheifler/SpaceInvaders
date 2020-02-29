@@ -1,8 +1,8 @@
 package com.example.spaceinvaders;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -37,7 +37,7 @@ public class GameObjectHandler {
         remainingEnemies = totalAmountOfEnemies;
         Velocity playerVelocity = new Velocity(0, 0);
         Position playerPosition = new Position(screenWidth / 2, screenHeight - 200);
-        player = new Player(context, playerPosition, playerVelocity,  20, 5);
+        player = new Player(context, playerPosition, playerVelocity,  20, 1000);
         spaceShips.add(player);
     }
 
@@ -51,16 +51,20 @@ public class GameObjectHandler {
 
         CollisionDetectorSystem detectorSystem = new CollisionDetectorSystem();
 
+        int score = 0;
         for(SpaceShip spaceShip : new ArrayList<>(spaceShips)){
             for (Laser laser : new ArrayList<>(lasers)){
                 if (detectorSystem.isColliding(spaceShip,laser)){
                     spaceShip.dropHealth(laser.getDamage());
                     lasers.remove(laser);
-                    if(spaceShip.isDying())
+                    if(spaceShip.isDying()){
+                        score+=spaceShip.getKillPoints();
                         spaceShips.remove(spaceShip);
+                    }
                 }
             }
         }
+        player.increaseScore(score);
     }
 
     private void updateLasers() {
@@ -106,7 +110,11 @@ public class GameObjectHandler {
         paint.setTextSize(30);
         paint.setColor(Color.WHITE);
 
-        canvas.drawText("PlayerHealth: "+player.getHealth()+"SpaceShips: "+spaceShips.size()+"\n Lasers: "+lasers.size(),10,40, paint);
+        int xPos = (canvas.getWidth() / 2);
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+        canvas.drawText("Hello", xPos, yPos, paint);
+
+        canvas.drawText("PlayerHealth: "+player.getHealth()+" Score: "+player.getScore(),10,40, paint);
     }
 
     private void spawnEnemies(){
@@ -131,7 +139,7 @@ public class GameObjectHandler {
 
     public void receiveUserInput(int x, int y){
         SpaceShip spaceShip = getPlayerAsSpaceShip();
-        Position playerPosition = new Position(x, spaceShip.getPosition().getY());
+        Position playerPosition = new Position(x - spaceShip.getImage().getWidth() / 2, spaceShip.getPosition().getY());
         spaceShip.setPosition(playerPosition);
     }
 
@@ -144,7 +152,7 @@ public class GameObjectHandler {
     }
 
     private int getRandomSpawnPoint(){
-        return (int) (Math.random() * screenWidth) + 1;
+        return (int) (Math.random() * (screenWidth - BitmapFactory.decodeResource(context.getResources(), R.drawable.invader).getWidth()));
     }
 
     private int getSpawnDirection(int xVelocity){

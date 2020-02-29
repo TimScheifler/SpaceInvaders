@@ -22,6 +22,8 @@ public abstract class SpaceShip extends GameObject {
     private int damage;
     private final boolean isPlayer;
     private int health;
+    private int score;
+    private int killPoints;
 
     /**
      *
@@ -40,6 +42,8 @@ public abstract class SpaceShip extends GameObject {
         this.damage = 1;
         this.isPlayer = isPlayer;
         this.health = health;
+        this.score = 0;
+        this.killPoints=100;
     }
 
     /**
@@ -142,5 +146,17 @@ public abstract class SpaceShip extends GameObject {
     }
     public int getHealth(){
         return health;
+    }
+
+    public void increaseScore(int newPoints){
+        score += newPoints;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public int getKillPoints(){
+        return killPoints;
     }
 }
