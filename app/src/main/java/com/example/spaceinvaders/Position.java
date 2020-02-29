@@ -59,4 +59,9 @@ public class Position {
     public String toString(){
         return "X: "+x+" Y: "+y;
     }
+
+    public void updatePosition(int xVelocity, int yVelocity) {
+        this.x += xVelocity;
+        this.y += yVelocity;
+    }
 }

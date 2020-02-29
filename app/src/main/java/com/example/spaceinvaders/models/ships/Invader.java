@@ -5,15 +5,16 @@ import android.graphics.BitmapFactory;
 
 import com.example.spaceinvaders.Position;
 import com.example.spaceinvaders.R;
+import com.example.spaceinvaders.Velocity;
 
 /**
  * An Invader.
  */
 public class Invader extends SpaceShip {
 
-    public Invader(Context context, Position position, int xSpeed, int ySpeed, int attackSpeed) {
+    public Invader(Context context, Position position, Velocity velocity, int attackSpeed, int health) {
         super(BitmapFactory.decodeResource(context.getResources(), R.drawable.invader),
                 BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_laser_small),
-                false, position, xSpeed, ySpeed, attackSpeed);
+                false, position, velocity, attackSpeed, health);
     }
 }

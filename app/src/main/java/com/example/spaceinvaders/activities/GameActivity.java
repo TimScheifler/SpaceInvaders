@@ -2,15 +2,22 @@ package com.example.spaceinvaders.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.spaceinvaders.GameObjectHandler;
 import com.example.spaceinvaders.GameView;
 
 /**
  * The GameActivity.
  */
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements View.OnTouchListener {
+
+    GameView gameView;
+    GameObjectHandler gameObjectHandler;
 
     /**
      * Called when GameActivity is starting.
@@ -22,9 +29,20 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        gameObjectHandler = new GameObjectHandler(this);
+        gameView = new GameView(this, gameObjectHandler);
+        gameView.setOnTouchListener(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GameView(this));
+        setContentView(gameView);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_MOVE)
+            gameObjectHandler.receiveUserInput((int)event.getX(), (int)event.getY());
+        return true;
     }
 }

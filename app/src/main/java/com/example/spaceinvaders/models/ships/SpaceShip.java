@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Space;
 
 import com.example.spaceinvaders.Position;
+import com.example.spaceinvaders.Velocity;
 import com.example.spaceinvaders.models.GameObject;
 import com.example.spaceinvaders.models.lasers.Laser;
 
@@ -20,6 +21,7 @@ public abstract class SpaceShip extends GameObject {
     private int charger = 0;
     private int damage;
     private final boolean isPlayer;
+    private int health;
 
     /**
      *
@@ -27,17 +29,17 @@ public abstract class SpaceShip extends GameObject {
      * @param laserImage
      * @param isPlayer
      * @param position
-     * @param xVelocity
-     * @param yVelocity
+     * @param velocity
      * @param attackSpeed
      */
-    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, Position position, int xVelocity, int yVelocity, int attackSpeed) {
-        super(image, position, xVelocity, yVelocity);
+    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, Position position, Velocity velocity, int attackSpeed, int health) {
+        super(image, position, velocity);
 
         this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
-        this.damage = attackSpeed / 2;
+        this.damage = 1;
         this.isPlayer = isPlayer;
+        this.health = health;
     }
 
     /**
@@ -89,7 +91,17 @@ public abstract class SpaceShip extends GameObject {
     }
 
     private Laser getNewLaser(Bitmap laserBitmap, int laserSpeed){
-        return new Laser(laserBitmap, new Position(position.getX(),position.getY()), laserSpeed, damage, isPlayer);
+        Position laserPosition = calculateNewLaserPosition();
+        Velocity laserVelocity = new Velocity(0, laserSpeed);
+        return new Laser(laserBitmap, laserPosition, laserVelocity, damage, isPlayer);
+    }
+
+    private Position calculateNewLaserPosition(){
+        if(isPlayer){
+            return new Position((position.getX()+getImage().getWidth() / 2)-laserImage.getWidth()/2,position.getY());
+        }else{
+            return new Position((position.getX()+getImage().getWidth() / 2)-laserImage.getWidth()/2, position.getY()+getImage().getHeight());
+        }
     }
 
     /**
@@ -117,5 +129,18 @@ public abstract class SpaceShip extends GameObject {
      */
     public Bitmap getLaserImage() {
         return laserImage;
+    }
+
+    public boolean isPlayer(){
+        return isPlayer;
+    }
+    public void dropHealth(int damage){
+        this.health -= damage;
+    }
+    public boolean isDying(){
+        return health <= 0;
+    }
+    public int getHealth(){
+        return health;
     }
 }

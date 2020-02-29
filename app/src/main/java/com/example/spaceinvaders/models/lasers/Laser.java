@@ -3,6 +3,7 @@ package com.example.spaceinvaders.models.lasers;
 import android.graphics.Bitmap;
 
 import com.example.spaceinvaders.Position;
+import com.example.spaceinvaders.Velocity;
 import com.example.spaceinvaders.models.GameObject;
 
 /**
@@ -13,20 +14,11 @@ public class Laser extends GameObject {
     private final int damage;
     private final boolean isPlayerLaser;
 
-    public Laser(Bitmap image, Position position, int ySpeed, int damage, boolean isPlayerLaser) {
-        super(image, position, 0, ySpeed);
+    public Laser(Bitmap image, Position position, Velocity velocity, int damage, boolean isPlayerLaser) {
+        super(image, position, velocity);
 
         this.damage = damage;
         this.isPlayerLaser = isPlayerLaser;
-    }
-
-    private void collision(){
-
-        if(isPlayerLaser){
-
-        }else{
-
-        }
     }
 
     public void update(){
@@ -35,5 +27,9 @@ public class Laser extends GameObject {
 
     public int getDamage() {
         return damage;
+    }
+
+    public boolean isPlayerLaser(){
+        return isPlayerLaser;
     }
 }

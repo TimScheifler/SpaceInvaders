@@ -4,7 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.example.spaceinvaders.CollisionBox;
 import com.example.spaceinvaders.Position;
+import com.example.spaceinvaders.Velocity;
 
 /**
  * A GameObject.
@@ -13,25 +15,22 @@ public abstract class GameObject {
 
     private final Bitmap image;
     protected Position position;
-    private int xVelocity, yVelocity;
+    private Velocity velocity;
+    protected CollisionBox collisionBox;
 
     private boolean collidable;
-
-    private final int width;
-    private final int height;
 
     //Collisiondetectorsystem
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    public GameObject(Bitmap image, Position position, int xVelocity, int yVelocity){
+    public GameObject(Bitmap image, Position position, Velocity velocity){
         this.image = image;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+        this.collisionBox = new CollisionBox(image.getWidth(), image.getHeight());
+
         this.position = position;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        this.velocity = velocity;
         this.collidable = true; //TODO add functionality
     }
 
@@ -49,12 +48,11 @@ public abstract class GameObject {
     }
 
     public void changeXVelocity(){
-        xVelocity = xVelocity * -1;
+        velocity.setxVelocity(velocity.getxVelocity() * -1);
     }
 
-    public void updatePosition() {
-        position.updateXByDistance(xVelocity);
-        position.updateYByDistance(yVelocity);
+    protected void updatePosition() {
+        position.updatePosition(velocity.getxVelocity(), velocity.getyVelocity());
     }
 
     public Bitmap getImage() {
@@ -69,22 +67,6 @@ public abstract class GameObject {
         this.position = position;
     }
 
-    public int getxVelocity() {
-        return xVelocity;
-    }
-
-    public void setxVelocity(int xVelocity) {
-        this.xVelocity = xVelocity;
-    }
-
-    public int getyVelocity() {
-        return yVelocity;
-    }
-
-    public void setyVelocity(int yVelocity) {
-        this.yVelocity = yVelocity;
-    }
-
     public int getScreenWidth() {
         return screenWidth;
     }
@@ -93,11 +75,9 @@ public abstract class GameObject {
         return screenHeight;
     }
 
-    public int getWidth() {
-        return width;
+    public CollisionBox getCollisionBox(){
+        return collisionBox;
     }
 
-    public int getHeight() {
-        return height;
-    }
+    public Velocity getVelocity(){ return velocity;}
 }

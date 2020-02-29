@@ -12,7 +12,6 @@ import android.view.SurfaceView;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
-    private Context context;
     private GameObjectHandler gameObjectHandler;
 
     /**
@@ -20,11 +19,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * run the constructor and it will create a new surface.
      * @param context The context.
      */
-    public GameView(Context context) {
+    public GameView(Context context, GameObjectHandler gameObjectHandler) {
         super(context);
-        this.context = context;
+        this.gameObjectHandler = gameObjectHandler;
         getHolder().addCallback(this); //adding callback to intercept events (intercept = abfangen).
-        gameObjectHandler = new GameObjectHandler(context);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
     }

@@ -5,15 +5,16 @@ import android.graphics.BitmapFactory;
 
 import com.example.spaceinvaders.Position;
 import com.example.spaceinvaders.R;
+import com.example.spaceinvaders.Velocity;
 
 /**
  * A Player.
  */
 public class Player extends SpaceShip {
 
-    public Player(Context context, Position position, int xSpeed, int ySpeed, int attackSpeed) {
+    public Player(Context context, Position position, Velocity velocity, int attackSpeed, int health) {
         super(BitmapFactory.decodeResource(context.getResources(), R.drawable.player),
                 BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_small),
-                true, position, xSpeed, ySpeed, attackSpeed);
+                true, position, velocity, attackSpeed, health);
     }
 }
