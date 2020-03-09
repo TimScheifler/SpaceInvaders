@@ -2,6 +2,7 @@ package com.example.spaceinvaders;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,12 +34,14 @@ public class GameObjectHandler {
     private int enemyTimer = 100;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private Bitmap background;
 
     private Player player;
 
     public GameObjectHandler(Context context){
         this.context = context;
         waveCounter = 1;
+        background = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
         Velocity playerVelocity = new Velocity(0, 0);
@@ -93,7 +96,7 @@ public class GameObjectHandler {
     }
 
     void draw(Canvas canvas){
-
+        canvas.drawBitmap(background, 0, 0, null);
         if(isTextPrinted){
             printNextWave(canvas);
         }

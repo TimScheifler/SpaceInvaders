@@ -2,7 +2,6 @@ package com.example.spaceinvaders;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -88,7 +87,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //OLD
         if(canvas != null){
-            canvas.drawColor(Color.DKGRAY);
             gameObjectHandler.draw(canvas);
         }
     }
