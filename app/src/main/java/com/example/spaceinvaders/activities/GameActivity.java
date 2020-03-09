@@ -10,11 +10,14 @@ import android.view.WindowManager;
 
 import com.example.spaceinvaders.GameObjectHandler;
 import com.example.spaceinvaders.GameView;
+import com.example.spaceinvaders.db.DatabaseManipulator;
 
 /**
  * The GameActivity.
  */
 public class GameActivity extends Activity implements View.OnTouchListener {
+
+    private DatabaseManipulator dbManipulator;
 
     GameView gameView;
     GameObjectHandler gameObjectHandler;

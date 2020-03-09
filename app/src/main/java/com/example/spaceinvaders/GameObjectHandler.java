@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.example.spaceinvaders.db.DatabaseManipulator;
 import com.example.spaceinvaders.models.components.Position;
 import com.example.spaceinvaders.models.components.Velocity;
 import com.example.spaceinvaders.models.lasers.Laser;
@@ -21,6 +22,7 @@ public class GameObjectHandler {
     private ArrayList<SpaceShip> spaceShips = new ArrayList<>();
     private ArrayList<Laser> lasers = new ArrayList<>();
 
+    private DatabaseManipulator databaseManipulator;
     private Context context;
     private int waveCounter;
     private final int waveCounterTimeMS = 90;
@@ -41,7 +43,7 @@ public class GameObjectHandler {
         remainingEnemies = totalAmountOfEnemies;
         Velocity playerVelocity = new Velocity(0, 0);
         Position playerPosition = new Position(screenWidth / 2, screenHeight - 200);
-        player = new Player(context, playerPosition, playerVelocity,  20, 1000);
+        player = new Player(context, playerPosition, playerVelocity,  20, 5);
         spaceShips.add(player);
     }
 
@@ -62,6 +64,11 @@ public class GameObjectHandler {
                     spaceShip.dropHealth(laser.getDamage());
                     lasers.remove(laser);
                     if(spaceShip.isDying()){
+                        if(spaceShip.isPlayer()){
+                            this.databaseManipulator = new DatabaseManipulator(context);
+                            this.databaseManipulator.insert("Tim", waveCounter, player.getScore());
+                            showInformationSavedDialog();
+                        }
                         score+=spaceShip.getKillPoints();
                         spaceShips.remove(spaceShip);
                     }
@@ -163,6 +170,10 @@ public class GameObjectHandler {
         SpaceShip spaceShip = getPlayerAsSpaceShip();
         Position playerPosition = new Position(x - spaceShip.getImage().getWidth() / 2, spaceShip.getPosition().getY());
         spaceShip.setPosition(playerPosition);
+    }
+
+    protected void showInformationSavedDialog() {
+        //TODO
     }
 
     private SpaceShip getPlayerAsSpaceShip(){
