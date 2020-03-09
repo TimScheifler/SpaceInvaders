@@ -1,4 +1,4 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.models.components;
 
 /**
  * Used for the position of a GameObject.

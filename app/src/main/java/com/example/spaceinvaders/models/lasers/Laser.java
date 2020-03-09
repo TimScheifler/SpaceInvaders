@@ -2,8 +2,8 @@ package com.example.spaceinvaders.models.lasers;
 
 import android.graphics.Bitmap;
 
-import com.example.spaceinvaders.Position;
-import com.example.spaceinvaders.Velocity;
+import com.example.spaceinvaders.models.components.Position;
+import com.example.spaceinvaders.models.components.Velocity;
 import com.example.spaceinvaders.models.GameObject;
 
 /**

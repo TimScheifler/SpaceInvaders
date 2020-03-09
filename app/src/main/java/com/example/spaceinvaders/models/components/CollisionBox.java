@@ -1,4 +1,4 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.models.components;
 
 public class CollisionBox {
 

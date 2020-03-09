@@ -4,9 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.example.spaceinvaders.CollisionBox;
-import com.example.spaceinvaders.Position;
-import com.example.spaceinvaders.Velocity;
+import com.example.spaceinvaders.models.components.CollisionBox;
+import com.example.spaceinvaders.models.components.Position;
+import com.example.spaceinvaders.models.components.Velocity;
 
 /**
  * A GameObject.

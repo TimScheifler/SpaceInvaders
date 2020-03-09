@@ -1,5 +1,7 @@
 package com.example.spaceinvaders;
 
+import com.example.spaceinvaders.models.components.CollisionBox;
+import com.example.spaceinvaders.models.components.Position;
 import com.example.spaceinvaders.models.lasers.Laser;
 import com.example.spaceinvaders.models.ships.SpaceShip;
 

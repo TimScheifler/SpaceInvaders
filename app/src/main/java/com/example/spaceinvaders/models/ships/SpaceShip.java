@@ -1,13 +1,10 @@
 package com.example.spaceinvaders.models.ships;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
-import android.widget.Space;
 
-import com.example.spaceinvaders.Position;
-import com.example.spaceinvaders.Velocity;
+import com.example.spaceinvaders.models.components.Position;
+import com.example.spaceinvaders.models.components.Velocity;
 import com.example.spaceinvaders.models.GameObject;
 import com.example.spaceinvaders.models.lasers.Laser;
 

@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
+import com.example.spaceinvaders.models.components.Position;
+import com.example.spaceinvaders.models.components.Velocity;
 import com.example.spaceinvaders.models.lasers.Laser;
 import com.example.spaceinvaders.models.ships.Invader;
 import com.example.spaceinvaders.models.ships.Player;
@@ -22,6 +23,9 @@ public class GameObjectHandler {
 
     private Context context;
     private int waveCounter;
+    private final int waveCounterTimeMS = 90;
+    private int remainingWaveCounterTimeMS = waveCounterTimeMS;
+    private boolean isTextPrinted = false;
     private int totalAmountOfEnemies;
     private int remainingEnemies;
     private int enemyTimer = 100;
@@ -82,6 +86,10 @@ public class GameObjectHandler {
     }
 
     void draw(Canvas canvas){
+
+        if(isTextPrinted){
+            printNextWave(canvas);
+        }
         for(SpaceShip spaceShip : spaceShips){
             spaceShip.draw(canvas);
         }
@@ -110,10 +118,6 @@ public class GameObjectHandler {
         paint.setTextSize(30);
         paint.setColor(Color.WHITE);
 
-        int xPos = (canvas.getWidth() / 2);
-        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
-        canvas.drawText("Hello", xPos, yPos, paint);
-
         canvas.drawText("PlayerHealth: "+player.getHealth()+" Score: "+player.getScore(),10,40, paint);
     }
 
@@ -123,7 +127,7 @@ public class GameObjectHandler {
             waveCounter++;
             totalAmountOfEnemies *= 1.4;
             remainingEnemies = totalAmountOfEnemies;
-            Log.i("NewWave:",waveCounter+"");
+            isTextPrinted = true;
         }else{
             if(enemyTimer == 0){
                 enemyTimer = 100;
@@ -135,6 +139,24 @@ public class GameObjectHandler {
                 enemyTimer--;
             }
         }
+    }
+
+    private void printNextWave(Canvas canvas) {
+        if(remainingWaveCounterTimeMS > 0){
+            remainingWaveCounterTimeMS--;
+            Paint paint = new Paint();
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(100);
+            paint.setColor(Color.WHITE);
+
+            int xPos = (canvas.getWidth() / 2);
+            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+            canvas.drawText("Wave: "+waveCounter, xPos, yPos, paint);
+        }else{
+            remainingWaveCounterTimeMS = waveCounterTimeMS;
+            isTextPrinted = false;
+        }
+
     }
 
     public void receiveUserInput(int x, int y){

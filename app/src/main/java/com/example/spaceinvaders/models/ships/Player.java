@@ -3,9 +3,9 @@ package com.example.spaceinvaders.models.ships;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 
-import com.example.spaceinvaders.Position;
+import com.example.spaceinvaders.models.components.Position;
 import com.example.spaceinvaders.R;
-import com.example.spaceinvaders.Velocity;
+import com.example.spaceinvaders.models.components.Velocity;
 
 /**
  * A Player.
