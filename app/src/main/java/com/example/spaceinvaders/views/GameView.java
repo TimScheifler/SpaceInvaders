@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.spaceinvaders.GameObjectHandler;
+import com.example.spaceinvaders.handler.GameObjectHandler;
 import com.example.spaceinvaders.MainThread;
 
 /**

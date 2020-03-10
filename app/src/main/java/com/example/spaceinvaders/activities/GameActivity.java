@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.spaceinvaders.GameObjectHandler;
+import com.example.spaceinvaders.handler.GameObjectHandler;
 import com.example.spaceinvaders.views.GameView;
 
 /**

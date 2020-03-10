@@ -1,4 +1,4 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.handler;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.example.spaceinvaders.CollisionDetectorSystem;
+import com.example.spaceinvaders.R;
 import com.example.spaceinvaders.db.DatabaseManipulator;
 import com.example.spaceinvaders.models.components.Position;
 import com.example.spaceinvaders.models.components.Velocity;
@@ -35,8 +37,9 @@ public class GameObjectHandler {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private Bitmap background;
-    private CollisionDetectorSystem detectorSystem;
 
+    private CollisionDetectorSystem detectorSystem;
+    private SoundHandler soundHandler;
 
     private Player player;
 
@@ -47,6 +50,7 @@ public class GameObjectHandler {
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
 
+        soundHandler = new SoundHandler(context);
         detectorSystem = new CollisionDetectorSystem();
 
         Velocity playerVelocity = new Velocity(0, 0);
@@ -93,6 +97,9 @@ public class GameObjectHandler {
             spaceShip.update();
             if(spaceShip.laserIsCharged()){
                 lasers.add(spaceShip.shootLaser(spaceShip.getLaserImage(), 8));
+                if(spaceShip.isPlayer()){
+                    soundHandler.playShootSound();
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.handler;
 
 public class WaveHandler {
 
