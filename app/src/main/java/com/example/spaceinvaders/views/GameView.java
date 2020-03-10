@@ -1,9 +1,12 @@
-package com.example.spaceinvaders;
+package com.example.spaceinvaders.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.spaceinvaders.GameObjectHandler;
+import com.example.spaceinvaders.MainThread;
 
 /**
  * The GameView.

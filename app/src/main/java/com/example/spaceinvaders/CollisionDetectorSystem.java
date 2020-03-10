@@ -5,14 +5,14 @@ import com.example.spaceinvaders.models.components.Position;
 import com.example.spaceinvaders.models.lasers.Laser;
 import com.example.spaceinvaders.models.ships.SpaceShip;
 
-public class CollisionDetectorSystem {
+class CollisionDetectorSystem {
 
 
-    public CollisionDetectorSystem(){
+    CollisionDetectorSystem(){
 
     }
 
-    public boolean isColliding(SpaceShip spaceShip, Laser laser){
+    boolean isColliding(SpaceShip spaceShip, Laser laser){
         Position p1 = laser.getPosition();
         Position p2 = new Position(laser.getPosition().getX()+laser.getCollisionBox().getWidth(),laser.getPosition().getY());
         Position p3 = new Position(laser.getPosition().getX(), laser.getPosition().getY()+laser.getCollisionBox().getHeight());

@@ -35,6 +35,8 @@ public class GameObjectHandler {
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private Bitmap background;
+    private CollisionDetectorSystem detectorSystem;
+
 
     private Player player;
 
@@ -44,21 +46,22 @@ public class GameObjectHandler {
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
+
+        detectorSystem = new CollisionDetectorSystem();
+
         Velocity playerVelocity = new Velocity(0, 0);
         Position playerPosition = new Position(screenWidth / 2, screenHeight - 200);
         player = new Player(context, playerPosition, playerVelocity,  20, 5);
         spaceShips.add(player);
     }
 
-    void update(){
+    public void update(){
         spawnEnemies();
         removeSpaceShipsOutsideOfScreen();
         removeLasersOutsideOfScreen();
 
         updateSpaceShips();
         updateLasers();
-
-        CollisionDetectorSystem detectorSystem = new CollisionDetectorSystem();
 
         int score = 0;
         for(SpaceShip spaceShip : new ArrayList<>(spaceShips)){
@@ -68,8 +71,7 @@ public class GameObjectHandler {
                     lasers.remove(laser);
                     if(spaceShip.isDying()){
                         if(spaceShip.isPlayer()){
-                            this.databaseManipulator = new DatabaseManipulator(context);
-                            this.databaseManipulator.insert("Tim", waveCounter, player.getScore());
+                            saveGameScore();
                             showInformationSavedDialog();
                         }
                         score+=spaceShip.getKillPoints();
@@ -95,7 +97,7 @@ public class GameObjectHandler {
         }
     }
 
-    void draw(Canvas canvas){
+    public void draw(Canvas canvas){
         canvas.drawBitmap(background, 0, 0, null);
         if(isTextPrinted){
             printNextWave(canvas);
@@ -169,14 +171,19 @@ public class GameObjectHandler {
 
     }
 
-    public void receiveUserInput(int x, int y){
+    public void receiveUserInput(int x){
         SpaceShip spaceShip = getPlayerAsSpaceShip();
         Position playerPosition = new Position(x - spaceShip.getImage().getWidth() / 2, spaceShip.getPosition().getY());
         spaceShip.setPosition(playerPosition);
     }
 
-    protected void showInformationSavedDialog() {
+    private void showInformationSavedDialog() {
         //TODO
+    }
+
+    private void saveGameScore() {
+        this.databaseManipulator = new DatabaseManipulator(context);
+        this.databaseManipulator.insert("Tim", waveCounter, player.getScore());
     }
 
     private SpaceShip getPlayerAsSpaceShip(){
