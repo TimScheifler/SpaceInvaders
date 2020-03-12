@@ -14,6 +14,7 @@ import com.madproject.spaceinvaders.models.lasers.Laser;
 public abstract class SpaceShip extends GameObject {
 
     private final Bitmap laserImage;
+    private boolean canAttack;
     private int attackSpeed;
     private int charger = 0;
     private int damage;
@@ -34,6 +35,7 @@ public abstract class SpaceShip extends GameObject {
     SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, Position position, Velocity velocity, int attackSpeed, int health) {
         super(image, position, velocity);
 
+        this.canAttack = true;
         this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
         this.damage = 1;
@@ -41,6 +43,10 @@ public abstract class SpaceShip extends GameObject {
         this.health = health;
         this.score = 0;
         this.killPoints=100;
+    }
+
+    public void setCanAttack(boolean canAttack){
+        this.canAttack = canAttack;
     }
 
     /**
@@ -68,13 +74,16 @@ public abstract class SpaceShip extends GameObject {
      * @return
      */
     public boolean laserIsCharged(){
-        if(charger >= attackSpeed) {
-            charger = 0;
-            return true;
-        }else{
-            charger++;
-            return false;
+        if(canAttack){
+            if(charger >= attackSpeed) {
+                charger = 0;
+                return true;
+            }else{
+                charger++;
+                return false;
+            }
         }
+        return false;
     }
 
     /**

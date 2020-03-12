@@ -3,7 +3,9 @@ package com.madproject.spaceinvaders.models;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
+import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.models.components.CollisionBox;
 import com.madproject.spaceinvaders.models.components.Position;
 import com.madproject.spaceinvaders.models.components.Velocity;
@@ -13,18 +15,24 @@ import com.madproject.spaceinvaders.models.components.Velocity;
  */
 public abstract class GameObject {
 
-    private final Bitmap image;
+    private Bitmap image;
     protected Position position;
     private Velocity velocity;
     protected CollisionBox collisionBox;
 
     private boolean collidable;
 
+    Rescaler rescaler;
+
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     public GameObject(Bitmap image, Position position, Velocity velocity){
-        this.image = image;
+        rescaler = new Rescaler();
+        Log.i("RESCALER X",rescaler.getXRescaleFactor()+"");
+        Log.i("RESCALER Y",rescaler.getYRescaleFactor()+"");
+        this.image = Bitmap.createScaledBitmap(image,(int)(image.getWidth()*rescaler.getXRescaleFactor()), (int)(image.getHeight()*rescaler.getYRescaleFactor()), true);
+
         this.collisionBox = new CollisionBox(image.getWidth(), image.getHeight());
 
         this.position = position;

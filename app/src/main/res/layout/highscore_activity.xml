@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/space"
+
+    android:orientation="vertical" >
 <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="Highscore" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Name - Wave - Score" />
 <ListView
     android:id="@android:id/list"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:drawSelectorOnTop="false"
+    android:layout_weight="0.1"
     android:textSize="8sp" />
-<Button
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/default_button"
+        android:text="@string/show_global_score" />
+    <Button
     android:id="@+id/return_button"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Back" />
+        android:background="@drawable/default_button"
+        android:text="@string/back" />
+
 </LinearLayout>

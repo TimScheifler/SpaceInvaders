@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/space"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.madproject.spaceinvaders.activities.SpaceInvadersActivity">
 
     <TextView
@@ -16,10 +18,61 @@
         android:text="@string/settings"
         android:textColor="@color/colorSnow"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/back_button"
+        app:layout_constraintBottom_toTopOf="@+id/player_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/player_name"
+        android:layout_width="210dp"
+        android:layout_height="43dp"
+        android:text="@string/settings"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="@color/colorSnow"
+        app:layout_constraintBottom_toTopOf="@+id/save_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="210dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="24dp"
+        android:text="Save"
+        android:background="@drawable/default_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_name"
+        app:layout_constraintBottom_toTopOf="@+id/volume_button"/>
+
+    <Button
+        android:id="@+id/volume_button"
+        android:layout_width="210dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="24dp"
+        android:text=""
+        android:background="@drawable/default_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_button"
+        app:layout_constraintBottom_toTopOf="@+id/reset_db_button"/>
+
+    <Button
+        android:id="@+id/reset_db_button"
+        android:layout_width="210dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/reset_db"
+        android:background="@drawable/default_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volume_button"
+        app:layout_constraintBottom_toTopOf="@+id/back_button"/>
+
 
     <Button
         android:id="@+id/back_button"
@@ -27,8 +80,9 @@
         android:layout_height="43dp"
         android:layout_marginBottom="24dp"
         android:text="@string/back"
+        android:background="@drawable/default_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/reset_db_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

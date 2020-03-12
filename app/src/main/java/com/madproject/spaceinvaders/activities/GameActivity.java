@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.madproject.spaceinvaders.handler.GameObjectHandler;
+import com.madproject.spaceinvaders.handler.SoundHandler;
 import com.madproject.spaceinvaders.views.GameView;
 
 /**

@@ -1,17 +1,24 @@
 package com.madproject.spaceinvaders.handler;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
+import android.util.Log;
 
 import com.madproject.spaceinvaders.CollisionDetectorSystem;
 import com.madproject.spaceinvaders.R;
+import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
+import com.madproject.spaceinvaders.db.FirebaseHelper;
 import com.madproject.spaceinvaders.models.components.Position;
 import com.madproject.spaceinvaders.models.components.Velocity;
 import com.madproject.spaceinvaders.models.lasers.Laser;
@@ -26,6 +33,8 @@ public class GameObjectHandler {
     private ArrayList<SpaceShip> spaceShips = new ArrayList<>();
     private ArrayList<Laser> lasers = new ArrayList<>();
 
+    private boolean running = true;
+
     private DatabaseManipulator databaseManipulator;
     private Context context;
     private int waveCounter;
@@ -37,7 +46,10 @@ public class GameObjectHandler {
     private int enemyTimer = 100;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private Rescaler rescaler;
+
     private Bitmap background;
+    private FirebaseHelper firebaseHelper;
 
     private CollisionDetectorSystem detectorSystem;
     private SoundHandler soundHandler;
@@ -47,10 +59,14 @@ public class GameObjectHandler {
     public GameObjectHandler(Context context){
         this.context = context;
         waveCounter = 1;
+        rescaler = new Rescaler();
+        Log.i("ScreenHeight",screenHeight+"");
+        Log.i("ScreenWidth", screenWidth+"");
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
 
+        firebaseHelper = new FirebaseHelper(context);
         soundHandler = new SoundHandler(context);
         detectorSystem = new CollisionDetectorSystem();
 
@@ -61,32 +77,43 @@ public class GameObjectHandler {
     }
 
     public void update(){
-        spawnEnemies();
-        removeSpaceShipsOutsideOfScreen();
-        removeLasersOutsideOfScreen();
+        if(running){
+            spawnEnemies();
+            removeSpaceShipsOutsideOfScreen();
+            removeLasersOutsideOfScreen();
 
-        updateSpaceShips();
-        updateLasers();
+            updateSpaceShips();
+            updateLasers();
 
-        int score = 0;
-        for(SpaceShip spaceShip : new ArrayList<>(spaceShips)){
-            for (Laser laser : new ArrayList<>(lasers)){
-                if (detectorSystem.isColliding(spaceShip,laser)){
-                    spaceShip.dropHealth(laser.getDamage());
-                    lasers.remove(laser);
-                    if(spaceShip.isDying()){
-                        if(spaceShip.isPlayer()){
-                            saveGameScore();
-                            showInformationSavedDialog();
-                            ((Activity) context).finish();
+            int score = 0;
+            for(SpaceShip spaceShip : new ArrayList<>(spaceShips)){
+                for (Laser laser : new ArrayList<>(lasers)){
+                    if (detectorSystem.isColliding(spaceShip,laser)){
+                        spaceShip.dropHealth(laser.getDamage());
+                        lasers.remove(laser);
+                        if(spaceShip.isDying()){
+                            if(spaceShip.isPlayer()){
+                                saveGameScore();
+                                firebaseHelper.uploadScore(waveCounter,player.getScore());
+                                //firebaseHelper.uploadScoreToFirebase(waveCounter, player.getScore());
+                                ((Activity)context).runOnUiThread(new Runnable() {   // Use the context here
+                                    @Override
+                                    public void run() {
+                                        showInformationSavedDialog();
+                                    }
+                                });
+                                running = false;
+                            }else{
+                                //soundHandler.playExplosionSound();
+                                score+=spaceShip.getKillPoints();
+                                spaceShips.remove(spaceShip);
+                            }
                         }
-                        score+=spaceShip.getKillPoints();
-                        spaceShips.remove(spaceShip);
                     }
                 }
             }
+            player.increaseScore(score);
         }
-        player.increaseScore(score);
     }
 
     private void updateLasers() {
@@ -132,14 +159,13 @@ public class GameObjectHandler {
                 lasers.remove(laser);
     }
 
-    //SppressLint bedeutet, dass es die Warnung des Elements ignorieren soll.
     private void printInformationOnCanvas(Canvas canvas){
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(30);
         paint.setColor(Color.WHITE);
 
-        canvas.drawText("PlayerHealth: "+player.getHealth()+" Score: "+player.getScore(),10,40, paint);
+        canvas.drawText("PlayerHealth: "+player.getHealth()+" PlayerScore: "+player.getScore(),10,40, paint);
     }
 
     private void spawnEnemies(){
@@ -182,17 +208,41 @@ public class GameObjectHandler {
 
     public void receiveUserInput(int x){
         SpaceShip spaceShip = getPlayerAsSpaceShip();
+        assert spaceShip != null;
         Position playerPosition = new Position(x - spaceShip.getImage().getWidth() / 2, spaceShip.getPosition().getY());
         spaceShip.setPosition(playerPosition);
     }
 
     private void showInformationSavedDialog() {
-        //TODO
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context,
+                    android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        String text = context.getResources().getString(R.string.dying_text);
+        builder.setMessage(text+player.getScore()+"\n"+"Do you want to retry?");
+        builder.setCancelable(false);
+        builder.setNegativeButton(R.string.no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which){
+                        ((Activity)context).finish();
+                    }
+                });
+        builder.setPositiveButton(R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which){
+                        restartGameActivity();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void saveGameScore() {
         this.databaseManipulator = new DatabaseManipulator(context);
-        this.databaseManipulator.insert("Tim", waveCounter, player.getScore());
+        this.databaseManipulator.insertResult(waveCounter, player.getScore());
     }
 
     private SpaceShip getPlayerAsSpaceShip(){
@@ -216,5 +266,11 @@ public class GameObjectHandler {
 
     private boolean flyRight(){
         return Math.random() < 0.5;
+    }
+
+    private void restartGameActivity(){
+        Intent intent = ((Activity) context).getIntent();
+        ((Activity) context).finish();
+        context.startActivity(intent);
     }
 }

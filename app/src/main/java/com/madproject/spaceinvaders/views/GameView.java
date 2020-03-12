@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.handler.GameObjectHandler;
 import com.madproject.spaceinvaders.MainThread;
 
@@ -23,6 +24,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameView(Context context, GameObjectHandler gameObjectHandler) {
         super(context);
+
         this.gameObjectHandler = gameObjectHandler;
         getHolder().addCallback(this); //adding callback to intercept events (intercept = abfangen).
         thread = new MainThread(getHolder(), this);

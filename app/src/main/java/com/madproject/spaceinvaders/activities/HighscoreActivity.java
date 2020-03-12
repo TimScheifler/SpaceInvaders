@@ -2,13 +2,17 @@ package com.madproject.spaceinvaders.activities;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import com.madproject.spaceinvaders.models.components.PlayerScore;
 import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
+import com.madproject.spaceinvaders.db.FirebaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +20,15 @@ import java.util.List;
  */
 public class HighscoreActivity extends ListActivity {
 
-    DatabaseManipulator databaseManipulator;
+    private DatabaseManipulator databaseManipulator;
 
-    List<String[]> names2 = null;
-    String[] stg1;
+    private FirebaseHelper firebaseHelper;
+
+    private List<String[]> names2 = null;
+    private String[] stg1;
+    private ArrayList<PlayerScore> playerScores;
+
+    private boolean isGlobalScore = true;
 
     /**
      * Called when HighscoreActivity is starting.
@@ -34,24 +43,16 @@ public class HighscoreActivity extends ListActivity {
         setContentView(R.layout.highscore_activity);
 
         databaseManipulator = new DatabaseManipulator(this);
-        names2 = databaseManipulator.selectAll();
-        stg1 = new String[names2.size()];
-        int x = 0;
-        String stg;
+        firebaseHelper = new FirebaseHelper(this);
 
-        for(String[] name : names2){
-            stg = name[1] + " - "
-                    + name[2] + " - "
-                    + name[3];
-            stg1[x] = stg;
-            x++;
-        }
+        playerScores = firebaseHelper.getScoretableFromFirebase();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,stg1);
-        this.setListAdapter(adapter);
+        printLocalScore();
 
-        Button backButton = (Button) findViewById(R.id.return_button);
+        executeListAdapter();
+
+        Button backButton = findViewById(R.id.return_button);
+        final Button updateButton = findViewById(R.id.update_button);
 
         backButton.setOnClickListener(new View.OnClickListener() {
 
@@ -61,6 +62,53 @@ public class HighscoreActivity extends ListActivity {
             }
         });
 
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isGlobalScore){
+                    isGlobalScore = false;
+                    updateButton.setText(getResources().getString(R.string.show_local_score));
+                    printGlobalScore();
+                }else{
+                    isGlobalScore = true;
+                    updateButton.setText(getResources().getString(R.string.show_global_score));
+                    //firebaseHelper.getScoretableFromFirebase();
+                    printLocalScore();
+                }
+                executeListAdapter();
+            }
+        });
+    }
 
+    private void printLocalScore(){
+        List<PlayerScore> playerScores = databaseManipulator.getResults();
+        stg1 = new String[playerScores.size()];
+        String stg;
+        int x = 0;
+
+        for(PlayerScore playerScore : playerScores){
+            stg = playerScore.getName()+" "+playerScore.getWave()+" "+playerScore.getScore();
+            stg1[x] = stg;
+            x++;
+        }
+    }
+
+    private void printGlobalScore(){
+        stg1 = new String[playerScores.size()];
+        int x = 0;
+        String stg;
+
+        for(PlayerScore playerScore : playerScores){
+            stg = playerScore.getName() + " - "+ playerScore.getWave()+" - "+playerScore.getScore();
+            Log.i("Playscores",stg);
+            stg1[x] = stg;
+            x++;
+        }
+    }
+
+    private void executeListAdapter(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,stg1);
+        this.setListAdapter(adapter);
     }
 }
