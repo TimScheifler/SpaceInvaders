@@ -62,7 +62,7 @@ public class DatabaseManipulator extends SQLiteOpenHelper{
                 "SELECT " + RESULT_COLUMN_NAME + ", " + RESULT_COLUMN_WAVE + ", " + RESULT_COLUMN_SCORE +
                         " FROM " + RESULT_TABLE_NAME +
                         " ORDER BY " + RESULT_COLUMN_SCORE + " DESC" +
-                        " LIMIT 5", null);
+                        " LIMIT 10", null);
 
         List<PlayerScore> results = new ArrayList<>();
         while (cursor.moveToNext()) {

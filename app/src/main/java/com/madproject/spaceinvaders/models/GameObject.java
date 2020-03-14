@@ -29,8 +29,6 @@ public abstract class GameObject {
 
     public GameObject(Bitmap image, Position position, Velocity velocity){
         rescaler = new Rescaler();
-        Log.i("RESCALER X",rescaler.getXRescaleFactor()+"");
-        Log.i("RESCALER Y",rescaler.getYRescaleFactor()+"");
         this.image = Bitmap.createScaledBitmap(image,(int)(image.getWidth()*rescaler.getXRescaleFactor()), (int)(image.getHeight()*rescaler.getYRescaleFactor()), true);
 
         this.collisionBox = new CollisionBox(image.getWidth(), image.getHeight());
@@ -48,6 +46,10 @@ public abstract class GameObject {
         return position.getX() + image.getWidth() >= screenWidth || position.getX() <= 0;
     }
 
+    public boolean gameObjectReachedSpecificHeight(){
+        return position.getY() > screenHeight / 2 || position.getY() < -50;
+    }
+
     public boolean gameObjectLeavesScreen(){
         return position.getY() <= -100
                 || position.getY() >= screenHeight;
@@ -56,6 +58,9 @@ public abstract class GameObject {
     public void changeXVelocity(){
         velocity.setxVelocity(velocity.getxVelocity() * -1);
     }
+    public void changeYVelocity(){
+        velocity.setyVelocity(velocity.getyVelocity() * -1);
+    }
 
     protected void updatePosition() {
         position.updatePosition(velocity.getxVelocity(), velocity.getyVelocity());
@@ -63,6 +68,10 @@ public abstract class GameObject {
 
     public Bitmap getImage() {
         return image;
+    }
+
+    public void setImage(Bitmap bitmap){
+        this.image = bitmap;
     }
 
     public Position getPosition() {

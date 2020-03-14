@@ -22,4 +22,7 @@ public class Velocity {
         return yVelocity;
     }
 
+    public void setyVelocity(int yVelocity) {
+        this.yVelocity = yVelocity;
+    }
 }

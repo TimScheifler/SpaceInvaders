@@ -1,11 +1,14 @@
 package com.madproject.spaceinvaders.activities;
 
 import android.app.ListActivity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.madproject.spaceinvaders.models.components.PlayerScore;
 import com.madproject.spaceinvaders.R;
@@ -24,8 +27,11 @@ public class HighscoreActivity extends ListActivity {
 
     private FirebaseHelper firebaseHelper;
 
+    private TextView first, second, third;
+
     private List<String[]> names2 = null;
     private String[] stg1;
+    private String[] topThree;
     private ArrayList<PlayerScore> playerScores;
 
     private boolean isGlobalScore = true;
@@ -42,12 +48,18 @@ public class HighscoreActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.highscore_activity);
 
+        first = findViewById(R.id.first_place);
+        second = findViewById(R.id.second_place);
+        third = findViewById(R.id.third_place);
+
+        topThree = new String[3];
+
         databaseManipulator = new DatabaseManipulator(this);
         firebaseHelper = new FirebaseHelper(this);
 
         playerScores = firebaseHelper.getScoretableFromFirebase();
-
         printLocalScore();
+        setTopThreeTextViews();
 
         executeListAdapter();
 
@@ -72,9 +84,9 @@ public class HighscoreActivity extends ListActivity {
                 }else{
                     isGlobalScore = true;
                     updateButton.setText(getResources().getString(R.string.show_global_score));
-                    //firebaseHelper.getScoretableFromFirebase();
                     printLocalScore();
                 }
+                setTopThreeTextViews();
                 executeListAdapter();
             }
         });
@@ -82,33 +94,81 @@ public class HighscoreActivity extends ListActivity {
 
     private void printLocalScore(){
         List<PlayerScore> playerScores = databaseManipulator.getResults();
-        stg1 = new String[playerScores.size()];
+        Log.i("TEEEST",playerScores.size()+"");
         String stg;
         int x = 0;
-
-        for(PlayerScore playerScore : playerScores){
-            stg = playerScore.getName()+" "+playerScore.getWave()+" "+playerScore.getScore();
-            stg1[x] = stg;
-            x++;
+        if(playerScores.size() > 2){
+            stg1 = new String[playerScores.size()-3];
+            int topThreeCounter = 0;
+            for(PlayerScore playerScore : playerScores){
+                stg = playerScore.getName()+" - "+playerScore.getWave()+" - "+playerScore.getScore();
+                if(topThreeCounter<3){
+                    topThree[topThreeCounter] = stg;
+                    topThreeCounter++;
+                }else{
+                    stg = x+4+". "+stg;
+                    stg1[x] = stg;
+                    x++;
+                }
+            }
+        }else if(playerScores.size() == 2){
+            stg1 = new String[2];
+            PlayerScore first_place = playerScores.get(0);
+            PlayerScore second_place = playerScores.get(1);
+            topThree[0] = first_place.getName()+" - "+first_place.getWave()+" - "+first_place.getScore();
+            topThree[1] = second_place.getName()+" - "+second_place.getWave()+" - "+second_place.getScore();
+            topThree[2] = "Player3 - 0 - 0";
+        }else if(playerScores.size() == 1){
+            stg1 = new String[2];
+            PlayerScore first_place = playerScores.get(0);
+            topThree[0] = first_place.getName()+" - "+first_place.getWave()+" - "+first_place.getScore();
+            topThree[1] = "Player2 - 0 - 0";
+            topThree[2] = "Player3 - 0 - 0";
         }
     }
 
     private void printGlobalScore(){
-        stg1 = new String[playerScores.size()];
+        stg1 = new String[playerScores.size()-3];
+        topThree = new String[3];
         int x = 0;
         String stg;
 
+        int topThreeCounter = 0;
         for(PlayerScore playerScore : playerScores){
             stg = playerScore.getName() + " - "+ playerScore.getWave()+" - "+playerScore.getScore();
-            Log.i("Playscores",stg);
-            stg1[x] = stg;
-            x++;
+            Log.i("Place "+topThreeCounter+1,stg);
+            if(topThreeCounter<3){
+                topThree[topThreeCounter] = stg;
+                topThreeCounter++;
+            }else{
+                stg = x+4+". "+stg;
+                stg1[x] = stg;
+                x++;
+            }
         }
     }
 
+    private void setTopThreeTextViews(){
+        first.setText(topThree[0]);
+        second.setText(topThree[1]);
+        third.setText(topThree[2]);
+    }
+
     private void executeListAdapter(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,stg1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,stg1){
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                textView.setTextColor(Color.WHITE);
+
+                return view;
+            }
+        };
         this.setListAdapter(adapter);
     }
 }

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Space Invaders</string>
+    <string name="start_game">Spiel Starten</string>
+    <string name="highscore">Highscore</string>
+    <string name="settings">Einstellungen</string>
+    <string name="credits">Credits</string>
+    <string name="back">Zurück</string>
+    <string name="reset_db">Datenbank zurücksetzen</string>
+    <string name="dying_text">Du hast die folgende Punktzahl erreicht:</string>
+    <string name="yes">Ja</string>
+    <string name="save">Speichern</string>
+    <string name="no">Nein</string>
+    <string name="volume_on">Ton anschalten</string>
+    <string name="volume_off">Ton ausschalten</string>
+    <string name="show_global_score">Zeige globalen Score</string>
+    <string name="show_local_score">Zeige lokalen Score</string>
+    <string name="do_you_want_to_retry">Möchtest du es erneut versuchen?</string>
+    <string name="wave_text">Welle:</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_english">Englisch</string>
+    <string name="activate_motion_control">Aktiviere Motion Steuerung</string>
+    <string name="deactivate_motion_control">Deaktiviere Motion Steuerung</string>
+</resources>

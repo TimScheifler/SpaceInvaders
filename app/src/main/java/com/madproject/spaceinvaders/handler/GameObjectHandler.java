@@ -12,9 +12,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
-import android.util.Log;
 
 import com.madproject.spaceinvaders.CollisionDetectorSystem;
+import com.madproject.spaceinvaders.MenuBarHandler;
 import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
@@ -32,10 +32,11 @@ public class GameObjectHandler {
 
     private ArrayList<SpaceShip> spaceShips = new ArrayList<>();
     private ArrayList<Laser> lasers = new ArrayList<>();
-
     private boolean running = true;
+    private Bitmap grey_bar;
 
     private DatabaseManipulator databaseManipulator;
+    private MenuBarHandler menuBarHandler;
     private Context context;
     private int waveCounter;
     private final int waveCounterTimeMS = 90;
@@ -60,8 +61,7 @@ public class GameObjectHandler {
         this.context = context;
         waveCounter = 1;
         rescaler = new Rescaler();
-        Log.i("ScreenHeight",screenHeight+"");
-        Log.i("ScreenWidth", screenWidth+"");
+
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         totalAmountOfEnemies = 5;
         remainingEnemies = totalAmountOfEnemies;
@@ -71,12 +71,14 @@ public class GameObjectHandler {
         detectorSystem = new CollisionDetectorSystem();
 
         Velocity playerVelocity = new Velocity(0, 0);
-        Position playerPosition = new Position(screenWidth / 2, screenHeight - 200);
+        Position playerPosition = new Position(screenWidth / 2, screenHeight - 250);
         player = new Player(context, playerPosition, playerVelocity,  20, 5);
         spaceShips.add(player);
+        menuBarHandler = new MenuBarHandler(context, player);
     }
 
     public void update(){
+        menuBarHandler.update();
         if(running){
             spawnEnemies();
             removeSpaceShipsOutsideOfScreen();
@@ -144,7 +146,7 @@ public class GameObjectHandler {
         for(Laser laser : lasers){
             laser.draw(canvas);
         }
-        printInformationOnCanvas(canvas);
+        menuBarHandler.draw(canvas);
     }
 
     private void removeSpaceShipsOutsideOfScreen(){
@@ -159,27 +161,23 @@ public class GameObjectHandler {
                 lasers.remove(laser);
     }
 
-    private void printInformationOnCanvas(Canvas canvas){
-        Paint paint = new Paint();
-        paint.setTextAlign(Paint.Align.LEFT);
-        paint.setTextSize(30);
-        paint.setColor(Color.WHITE);
 
-        canvas.drawText("PlayerHealth: "+player.getHealth()+" PlayerScore: "+player.getScore(),10,40, paint);
-    }
+    private int enemSpawnRate = 100;
 
     private void spawnEnemies(){
         if(remainingEnemies == 0){
             enemyTimer = 300;
+            if(enemSpawnRate > 40)
+                enemSpawnRate -= 5;
             waveCounter++;
             totalAmountOfEnemies *= 1.4;
             remainingEnemies = totalAmountOfEnemies;
             isTextPrinted = true;
         }else{
             if(enemyTimer == 0){
-                enemyTimer = 100;
+                enemyTimer = enemSpawnRate;
                 Position invaderPosition = new Position(getRandomSpawnPoint(),0);
-                Velocity invaderVelocity = new Velocity(5,3);
+                Velocity invaderVelocity = new Velocity(getSpawnDirection(5),3);
                 spaceShips.add(new Invader(context, invaderPosition, invaderVelocity,50, 3));
                 remainingEnemies--;
             }else{
@@ -198,7 +196,8 @@ public class GameObjectHandler {
 
             int xPos = (canvas.getWidth() / 2);
             int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
-            canvas.drawText("Wave: "+waveCounter, xPos, yPos, paint);
+            String waveText = context.getResources().getString(R.string.wave_text);
+            canvas.drawText(waveText+ " " +waveCounter, xPos, yPos, paint);
         }else{
             remainingWaveCounterTimeMS = waveCounterTimeMS;
             isTextPrinted = false;
@@ -221,8 +220,9 @@ public class GameObjectHandler {
         } else {
             builder = new AlertDialog.Builder(context);
         }
-        String text = context.getResources().getString(R.string.dying_text);
-        builder.setMessage(text+player.getScore()+"\n"+"Do you want to retry?");
+        String reached_score_text = context.getResources().getString(R.string.dying_text);
+        String wanna_retry = context.getResources().getString(R.string.do_you_want_to_retry);
+        builder.setMessage(reached_score_text+player.getScore()+"\n"+wanna_retry);
         builder.setCancelable(false);
         builder.setNegativeButton(R.string.no,
                 new DialogInterface.OnClickListener() {
@@ -254,7 +254,7 @@ public class GameObjectHandler {
     }
 
     private int getRandomSpawnPoint(){
-        return (int) (Math.random() * (screenWidth - BitmapFactory.decodeResource(context.getResources(), R.drawable.invader).getWidth()));
+        return (int) (Math.random() * (screenWidth - BitmapFactory.decodeResource(context.getResources(), R.drawable.invader_1).getWidth()));
     }
 
     private int getSpawnDirection(int xVelocity){

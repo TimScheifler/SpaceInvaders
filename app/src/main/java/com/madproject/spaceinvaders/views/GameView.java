@@ -1,10 +1,14 @@
 package com.madproject.spaceinvaders.views;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.handler.GameObjectHandler;
 import com.madproject.spaceinvaders.MainThread;
@@ -15,6 +19,7 @@ import com.madproject.spaceinvaders.MainThread;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
+
     private GameObjectHandler gameObjectHandler;
 
     /**

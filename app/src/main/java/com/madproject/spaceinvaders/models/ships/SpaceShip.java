@@ -1,8 +1,12 @@
 package com.madproject.spaceinvaders.models.ships;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
+import com.madproject.spaceinvaders.R;
+import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.models.components.Position;
 import com.madproject.spaceinvaders.models.components.Velocity;
 import com.madproject.spaceinvaders.models.GameObject;
@@ -14,6 +18,8 @@ import com.madproject.spaceinvaders.models.lasers.Laser;
 public abstract class SpaceShip extends GameObject {
 
     private final Bitmap laserImage;
+    private Bitmap image2;
+    private Rescaler rescaler;
     private boolean canAttack;
     private int attackSpeed;
     private int charger = 0;
@@ -32,9 +38,13 @@ public abstract class SpaceShip extends GameObject {
      * @param velocity
      * @param attackSpeed
      */
-    SpaceShip(Bitmap image, Bitmap laserImage, boolean isPlayer, Position position, Velocity velocity, int attackSpeed, int health) {
+    SpaceShip(Bitmap image,Bitmap image2, Bitmap laserImage, boolean isPlayer, Position position, Velocity velocity, int attackSpeed, int health) {
         super(image, position, velocity);
 
+        rescaler = new Rescaler();
+        image2 = Bitmap.createScaledBitmap(image2,(int)(image2.getWidth()*rescaler.getXRescaleFactor()), (int)(image2.getHeight()*rescaler.getYRescaleFactor()), true);
+
+        this.image2 = image2;
         this.canAttack = true;
         this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
@@ -45,16 +55,34 @@ public abstract class SpaceShip extends GameObject {
         this.killPoints=100;
     }
 
-    public void setCanAttack(boolean canAttack){
-        this.canAttack = canAttack;
+    private int counter = 1;
+
+    public void updateSpaceShipImage(){
+        if(counter % 10 == 0){
+            counter = 1;
+            Bitmap newImage;
+
+            newImage = image2;
+            image2 = getImage();
+            setImage(newImage);
+
+            Log.i("Changed", "changed image");
+            this.setImage(newImage);
+        }else{
+            counter++;
+        }
     }
 
     /**
      *
      */
     public void update(){
+        updateSpaceShipImage();
         if(gameObjectReachedSideBoarder()){
             changeXVelocity();
+        }
+        if(gameObjectReachedSpecificHeight()){
+            changeYVelocity();
         }
         updatePosition();
         //removeLaserOutsideOfScreen(); //TODO
@@ -113,6 +141,7 @@ public abstract class SpaceShip extends GameObject {
             return new Position((position.getX()+getImage().getWidth() / 2)-laserImage.getWidth()/2, position.getY()+getImage().getHeight());
         }
     }
+    private int someCounter = 1;
 
     /**
      * Getter of attackSpeed.

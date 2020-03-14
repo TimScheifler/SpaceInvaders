@@ -1,32 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:background="@drawable/space"
+    tools:context=".activities.HighscoreActivity"
+    android:weightSum="100">
 
-    android:orientation="vertical" >
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Highscore" />
-<ListView
-    android:id="@android:id/list"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:drawSelectorOnTop="false"
-    android:layout_weight="0.1"
-    android:textSize="8sp" />
-    <Button
-        android:id="@+id/update_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/default_button"
-        android:text="@string/show_global_score" />
-    <Button
-    android:id="@+id/return_button"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-        android:background="@drawable/default_button"
-        android:text="@string/back" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
+    <LinearLayout
+        android:layout_weight="90"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/test_2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="serif-monospace"
+            android:text="@string/highscore"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="0dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/first_place"
+                    android:layout_marginEnd="0dp"
+                    android:layout_width="160dp"
+                    android:textColor="#FFFFFF"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    android:layout_height="30dp"
+                    android:text="Player1 - 0 - 0"/>
+                />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_height="170dp"
+                android:background="@drawable/winner_podium">
+
+                <TextView
+                    android:id="@+id/third_place"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Player3 - 0 - 0"
+                    android:textColor="#FFFFFF" />
+
+                <Space
+                    android:layout_height="0dp"
+                    android:layout_width="100dp"/>
+                <TextView
+                    android:id="@+id/second_place"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="80dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="top"
+                    android:layout_height="40dp"
+                    android:text="Player2 - 0 - 0"/>
+                />
+
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1000"/>
+
+            <Button
+                android:id="@+id/update_button"
+                android:layout_width="210dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@drawable/default_button"
+                android:text="@string/show_global_score" />
+            <Button
+                android:id="@+id/return_button"
+                android:background="@drawable/default_button"
+                android:layout_margin="24dp"
+                android:layout_width="210dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="@string/back" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 </LinearLayout>

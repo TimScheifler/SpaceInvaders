@@ -44,8 +44,4 @@ public class SharedPreferencesHandler {
         editor.putString(PLAYER_NAME, newSharedPref);
         editor.apply();
     }
-
-
-
-
 }

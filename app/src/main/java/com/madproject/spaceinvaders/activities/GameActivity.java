@@ -2,12 +2,15 @@ package com.madproject.spaceinvaders.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.handler.GameObjectHandler;
 import com.madproject.spaceinvaders.handler.SoundHandler;
 import com.madproject.spaceinvaders.views.GameView;
