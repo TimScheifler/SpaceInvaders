@@ -15,7 +15,7 @@ public class Invader extends SpaceShip {
     public Invader(Context context, Position position, Velocity velocity, int attackSpeed, int health) {
         super(BitmapFactory.decodeResource(context.getResources(), R.drawable.invader_1),
                 BitmapFactory.decodeResource(context.getResources(), R.drawable.invader_2),
-                BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_laser_small),
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_laser),
                 false, position, velocity, attackSpeed, health);
     }
 }

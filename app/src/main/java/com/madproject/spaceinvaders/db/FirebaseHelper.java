@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.madproject.spaceinvaders.SharedPreferencesHandler;
+import com.madproject.spaceinvaders.handler.SharedPreferencesHandler;
 import com.madproject.spaceinvaders.models.components.PlayerScore;
 
 import java.util.ArrayList;

@@ -2,14 +2,13 @@ package com.madproject.spaceinvaders.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.madproject.spaceinvaders.R;
-import com.madproject.spaceinvaders.SharedPreferencesHandler;
+import com.madproject.spaceinvaders.handler.SharedPreferencesHandler;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
 
 /**

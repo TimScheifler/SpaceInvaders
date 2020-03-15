@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.SoundPool;
 
 import com.madproject.spaceinvaders.R;
-import com.madproject.spaceinvaders.SharedPreferencesHandler;
 
 public class SoundHandler {
 

@@ -1,4 +1,4 @@
-package com.madproject.spaceinvaders;
+package com.madproject.spaceinvaders.models;
 
 import com.madproject.spaceinvaders.models.components.CollisionBox;
 import com.madproject.spaceinvaders.models.components.Position;

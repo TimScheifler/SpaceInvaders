@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.madproject.spaceinvaders.SharedPreferencesHandler;
+import com.madproject.spaceinvaders.handler.SharedPreferencesHandler;
 import com.madproject.spaceinvaders.models.components.PlayerScore;
 
 import java.util.ArrayList;

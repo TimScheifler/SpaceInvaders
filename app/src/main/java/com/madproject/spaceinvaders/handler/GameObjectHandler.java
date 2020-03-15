@@ -13,13 +13,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 
-import com.madproject.spaceinvaders.CollisionDetectorSystem;
-import com.madproject.spaceinvaders.HealthPointHandler;
-import com.madproject.spaceinvaders.MenuBarHandler;
 import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
 import com.madproject.spaceinvaders.db.FirebaseHelper;
+import com.madproject.spaceinvaders.models.CollisionDetectorSystem;
 import com.madproject.spaceinvaders.models.components.Position;
 import com.madproject.spaceinvaders.models.components.Velocity;
 import com.madproject.spaceinvaders.models.lasers.Laser;

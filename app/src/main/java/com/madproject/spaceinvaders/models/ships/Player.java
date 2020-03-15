@@ -15,7 +15,7 @@ public class Player extends SpaceShip {
     public Player(Context context, Position position, Velocity velocity, int attackSpeed, int health) {
         super(BitmapFactory.decodeResource(context.getResources(), R.drawable.player_1),
                 BitmapFactory.decodeResource(context.getResources(), R.drawable.player_2),
-                BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_small),
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.laser),
                 true, position, velocity, attackSpeed, health);
     }
 }

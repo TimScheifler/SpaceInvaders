@@ -17,4 +17,6 @@
     <string name="show_local_score">Show Local Score</string>
     <string name="wave_text">Wave</string>
     <string name="points_text">Points</string>
+    <string name="local_highscore_text">Local Highscore</string>
+    <string name="global_highscore_text">Global Highscore</string>
 </resources>

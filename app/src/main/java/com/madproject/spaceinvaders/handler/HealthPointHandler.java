@@ -1,4 +1,4 @@
-package com.madproject.spaceinvaders;
+package com.madproject.spaceinvaders.handler;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.models.ships.Player;
 
 public class HealthPointHandler {
