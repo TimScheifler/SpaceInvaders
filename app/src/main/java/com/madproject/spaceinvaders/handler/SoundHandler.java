@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.SoundPool;
 
 import com.madproject.spaceinvaders.R;
+import com.madproject.spaceinvaders.db.SharedPreferencesHandler;
 
 public class SoundHandler {
 
@@ -14,14 +15,14 @@ public class SoundHandler {
 
     private final float MASTER_VOLUME = 0.2f;
 
-    public SoundHandler(Context context){
+    SoundHandler(Context context){
         soundPool = new SoundPool.Builder().build();
         sharedPreferencesHandler = new SharedPreferencesHandler(context);
 
         shootSound = soundPool.load(context, R.raw.laser,1);
     }
 
-    public void playShootSound(){
+    void playShootSound(){
         if(isSoundActivated())
             playSound(shootSound);
     }

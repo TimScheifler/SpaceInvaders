@@ -25,11 +25,8 @@ public class HighscoreActivity extends ListActivity {
 
     private DatabaseManipulator databaseManipulator;
 
-    private FirebaseHelper firebaseHelper;
-
     private TextView first, second, third, highscoreText;
 
-    private List<String[]> names2 = null;
     private String[] stg1;
     private String[] topThree;
     private ArrayList<PlayerScore> playerScores;
@@ -58,7 +55,7 @@ public class HighscoreActivity extends ListActivity {
         topThree = new String[3];
 
         databaseManipulator = new DatabaseManipulator(this);
-        firebaseHelper = new FirebaseHelper(this);
+        FirebaseHelper firebaseHelper = new FirebaseHelper(this);
 
         playerScores = firebaseHelper.getScoretableFromFirebase();
 
@@ -167,9 +164,9 @@ public class HighscoreActivity extends ListActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
-                View view =super.getView(position, convertView, parent);
+                View view = super.getView(position, convertView, parent);
 
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                TextView textView = view.findViewById(android.R.id.text1);
 
                 textView.setTextColor(Color.BLACK);
 

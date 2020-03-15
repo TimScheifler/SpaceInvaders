@@ -1,4 +1,4 @@
-package com.madproject.spaceinvaders.handler;
+package com.madproject.spaceinvaders.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;

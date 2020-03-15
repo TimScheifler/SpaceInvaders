@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.madproject.spaceinvaders.handler.SharedPreferencesHandler;
 import com.madproject.spaceinvaders.models.components.PlayerScore;
 
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public class DatabaseManipulator extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
 
     private SharedPreferencesHandler sharedPreferencesHandler;
-    private Context context;
 
     private static final String RESULT_TABLE_NAME = "scores";
     private static final String RESULT_COLUMN_ID = "id";
@@ -29,7 +27,6 @@ public class DatabaseManipulator extends SQLiteOpenHelper{
 
     public DatabaseManipulator(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
         sharedPreferencesHandler = new SharedPreferencesHandler(context);
     }
 
@@ -62,7 +59,7 @@ public class DatabaseManipulator extends SQLiteOpenHelper{
                 "SELECT " + RESULT_COLUMN_NAME + ", " + RESULT_COLUMN_WAVE + ", " + RESULT_COLUMN_SCORE +
                         " FROM " + RESULT_TABLE_NAME +
                         " ORDER BY " + RESULT_COLUMN_SCORE + " DESC" +
-                        " LIMIT 10", null);
+                        " LIMIT 25", null);
 
         List<PlayerScore> results = new ArrayList<>();
         while (cursor.moveToNext()) {

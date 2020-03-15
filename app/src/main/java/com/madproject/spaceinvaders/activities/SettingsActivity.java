@@ -8,15 +8,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.madproject.spaceinvaders.R;
-import com.madproject.spaceinvaders.handler.SharedPreferencesHandler;
+import com.madproject.spaceinvaders.db.SharedPreferencesHandler;
 import com.madproject.spaceinvaders.db.DatabaseManipulator;
 
 /**
  * TheSettingsActivity.
  */
 public class SettingsActivity extends Activity {
-
-    private DatabaseManipulator databaseManipulator;
 
     private String name;
     private SharedPreferencesHandler sharedPreferencesHandler;
@@ -33,7 +31,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.settings_activity);
         sharedPreferencesHandler = new SharedPreferencesHandler(this);
 
-        databaseManipulator = new DatabaseManipulator(this);
+        DatabaseManipulator databaseManipulator = new DatabaseManipulator(this);
 
         Button startButton = findViewById(R.id.back_button);
         Button saveNameButton = findViewById(R.id.save_button);

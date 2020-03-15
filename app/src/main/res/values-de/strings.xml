@@ -19,4 +19,5 @@
     <string name="points_text">Punkte</string>
     <string name="local_highscore_text">Lokaler Highscore</string>
     <string name="global_highscore_text">Globaler Highscore</string>
+    <string name="do_you_want_to_restart">Möchtest du neustarten</string>
 </resources>

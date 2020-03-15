@@ -18,7 +18,7 @@ public class HealthPointHandler {
     private Player player;
     private int relativeHeight;
 
-    public HealthPointHandler(Context context, Player player, int relativeHeight){
+    HealthPointHandler(Context context, Player player, int relativeHeight){
         this.health = player.getHealth();
         this.relativeHeight = relativeHeight;
         this.context = context;
@@ -28,7 +28,7 @@ public class HealthPointHandler {
 
     }
 
-    public void changeHealthBarImage(){
+    private void changeHealthBarImage(){
         switch (health){
             case 4 : setHealthBar(R.drawable.hp_four);
                 break;
@@ -55,20 +55,12 @@ public class HealthPointHandler {
         healthBar = BitmapFactory.decodeResource(context.getResources(), drawable);
     }
 
-    public int getHealth(){
-        return health;
-    }
-
-    public Bitmap getHealthBar(){
-        return healthBar;
-    }
-
-    public void update(){
+    void update(){
         health = player.getHealth();
         changeHealthBarImage();
     }
 
-    public void draw(Canvas canvas){
+    void draw(Canvas canvas){
         canvas.drawBitmap(healthBar, 0, 0, null);
     }
 }

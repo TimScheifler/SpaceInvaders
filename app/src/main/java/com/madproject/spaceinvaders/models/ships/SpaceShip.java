@@ -1,11 +1,9 @@
 package com.madproject.spaceinvaders.models.ships;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.models.components.Position;
 import com.madproject.spaceinvaders.models.components.Velocity;
@@ -20,7 +18,6 @@ public abstract class SpaceShip extends GameObject {
     private final Bitmap laserImage;
     private Bitmap image2;
     private Rescaler rescaler;
-    private boolean canAttack;
     private int attackSpeed;
     private int charger = 0;
     private int damage;
@@ -28,6 +25,7 @@ public abstract class SpaceShip extends GameObject {
     private int health;
     private int score;
     private int killPoints;
+    private int counter = 1;
 
     /**
      *
@@ -45,7 +43,6 @@ public abstract class SpaceShip extends GameObject {
         image2 = Bitmap.createScaledBitmap(image2,(int)(image2.getWidth()*rescaler.getXRescaleFactor()), (int)(image2.getHeight()*rescaler.getYRescaleFactor()), true);
 
         this.image2 = image2;
-        this.canAttack = true;
         this.laserImage = laserImage;
         this.attackSpeed = attackSpeed;
         this.damage = 1;
@@ -55,22 +52,24 @@ public abstract class SpaceShip extends GameObject {
         this.killPoints=100;
     }
 
-    private int counter = 1;
-
     public void updateSpaceShipImage(){
         if(counter % 10 == 0){
             counter = 1;
-            Bitmap newImage;
 
-            newImage = image2;
-            image2 = getImage();
-            setImage(newImage);
+            Bitmap newImage = getNextBitmap();
 
             Log.i("Changed", "changed image");
             this.setImage(newImage);
         }else{
             counter++;
         }
+    }
+
+    protected Bitmap getNextBitmap(){
+        Bitmap newImage = image2;
+        image2 = getImage();
+        setImage(newImage);
+        return newImage;
     }
 
     /**
@@ -102,16 +101,13 @@ public abstract class SpaceShip extends GameObject {
      * @return
      */
     public boolean laserIsCharged(){
-        if(canAttack){
-            if(charger >= attackSpeed) {
-                charger = 0;
-                return true;
-            }else{
-                charger++;
-                return false;
-            }
+        if(charger >= attackSpeed) {
+            charger = 0;
+            return true;
+        }else{
+            charger++;
+            return false;
         }
-        return false;
     }
 
     /**

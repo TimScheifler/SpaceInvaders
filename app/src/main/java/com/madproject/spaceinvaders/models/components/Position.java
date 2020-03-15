@@ -55,13 +55,16 @@ public class Position {
         y += distance;
     }
 
-    @Override
-    public String toString(){
-        return "X: "+x+" Y: "+y;
-    }
-
     public void updatePosition(int xVelocity, int yVelocity) {
         this.x += xVelocity;
         this.y += yVelocity;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

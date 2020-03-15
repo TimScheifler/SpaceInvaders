@@ -25,4 +25,12 @@ public class Velocity {
     public void setyVelocity(int yVelocity) {
         this.yVelocity = yVelocity;
     }
+
+    @Override
+    public String toString() {
+        return "Velocity{" +
+                "xVelocity=" + xVelocity +
+                ", yVelocity=" + yVelocity +
+                '}';
+    }
 }

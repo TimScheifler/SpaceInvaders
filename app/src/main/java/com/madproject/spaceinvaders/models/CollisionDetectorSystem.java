@@ -7,11 +7,6 @@ import com.madproject.spaceinvaders.models.ships.SpaceShip;
 
 public class CollisionDetectorSystem {
 
-
-    public CollisionDetectorSystem(){
-
-    }
-
     public boolean isColliding(SpaceShip spaceShip, Laser laser){
         Position p1 = laser.getPosition();
         Position p2 = new Position(laser.getPosition().getX()+laser.getCollisionBox().getWidth(),laser.getPosition().getY());

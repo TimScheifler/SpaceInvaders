@@ -1,9 +1,9 @@
 package com.madproject.spaceinvaders.models.components;
 
 public class PlayerScore {
-    String name;
-    int wave;
-    int score;
+    private String name;
+    private int wave;
+    private int score;
 
     public PlayerScore(String name, int wave, int score){
         this.name = name;

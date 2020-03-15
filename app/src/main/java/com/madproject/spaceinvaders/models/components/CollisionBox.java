@@ -25,4 +25,12 @@ public class CollisionBox {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return "CollisionBox{" +
+                "width=" + width +
+                ", height=" + height +
+                '}';
+    }
 }

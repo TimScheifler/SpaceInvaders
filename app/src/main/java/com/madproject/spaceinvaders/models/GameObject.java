@@ -3,7 +3,6 @@ package com.madproject.spaceinvaders.models;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.madproject.spaceinvaders.Rescaler;
 import com.madproject.spaceinvaders.models.components.CollisionBox;
@@ -18,11 +17,9 @@ public abstract class GameObject {
     private Bitmap image;
     protected Position position;
     private Velocity velocity;
-    protected CollisionBox collisionBox;
+    private CollisionBox collisionBox;
 
-    private boolean collidable;
-
-    Rescaler rescaler;
+    private Rescaler rescaler;
 
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -35,18 +32,17 @@ public abstract class GameObject {
 
         this.position = position;
         this.velocity = velocity;
-        this.collidable = true; //TODO add functionality
     }
 
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, position.getX(), position.getY(), null);
     }
 
-    public boolean gameObjectReachedSideBoarder(){
+    protected boolean gameObjectReachedSideBoarder(){
         return position.getX() + image.getWidth() >= screenWidth || position.getX() <= 0;
     }
 
-    public boolean gameObjectReachedSpecificHeight(){
+    protected boolean gameObjectReachedSpecificHeight(){
         return position.getY() > screenHeight / 2 || position.getY() < -50;
     }
 
@@ -55,10 +51,10 @@ public abstract class GameObject {
                 || position.getY() >= screenHeight;
     }
 
-    public void changeXVelocity(){
+    protected void changeXVelocity(){
         velocity.setxVelocity(velocity.getxVelocity() * -1);
     }
-    public void changeYVelocity(){
+    protected void changeYVelocity(){
         velocity.setyVelocity(velocity.getyVelocity() * -1);
     }
 
@@ -70,7 +66,7 @@ public abstract class GameObject {
         return image;
     }
 
-    public void setImage(Bitmap bitmap){
+    protected void setImage(Bitmap bitmap){
         this.image = bitmap;
     }
 

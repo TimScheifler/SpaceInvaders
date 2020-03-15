@@ -34,7 +34,6 @@ public class GameObjectHandler {
     private boolean running = true;
     private Bitmap grey_bar;
 
-    private DatabaseManipulator databaseManipulator;
     private MenuBarHandler menuBarHandler;
     private Context context;
     private int waveCounter;
@@ -46,7 +45,6 @@ public class GameObjectHandler {
     private int enemyTimer = 100;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private Rescaler rescaler;
 
     private Bitmap background;
     private FirebaseHelper firebaseHelper;
@@ -59,7 +57,6 @@ public class GameObjectHandler {
     public GameObjectHandler(Context context){
         this.context = context;
         waveCounter = 1;
-        rescaler = new Rescaler();
 
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         totalAmountOfEnemies = 5;
@@ -220,7 +217,8 @@ public class GameObjectHandler {
             builder = new AlertDialog.Builder(context);
         }
         String text = context.getResources().getString(R.string.dying_text);
-        builder.setMessage(text+player.getScore()+"\n"+"Do you want to retry?");
+        String restart = context.getResources().getString(R.string.do_you_want_to_restart);
+        builder.setMessage(text+player.getScore() + "\n" + restart + "?");
         builder.setCancelable(false);
         builder.setNegativeButton(R.string.no,
                 new DialogInterface.OnClickListener() {
@@ -239,8 +237,8 @@ public class GameObjectHandler {
     }
 
     private void saveGameScore() {
-        this.databaseManipulator = new DatabaseManipulator(context);
-        this.databaseManipulator.insertResult(waveCounter, player.getScore());
+        DatabaseManipulator databaseManipulator = new DatabaseManipulator(context);
+        databaseManipulator.insertResult(waveCounter, player.getScore());
     }
 
     private SpaceShip getPlayerAsSpaceShip(){
