@@ -2,6 +2,7 @@ package com.madproject.spaceinvaders.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,8 +27,9 @@ public class SpaceInvadersActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button startButton = findViewById(R.id.start_button);
-        Button settingsButton = findViewById(R.id.settings_button);
-        Button highscoreButton = findViewById(R.id.highscore_button);
+        final Button settingsButton = findViewById(R.id.settings_button);
+        final Button highscoreButton = findViewById(R.id.highscore_button);
+        final Button creditsButton = findViewById(R.id.credits_button);
 
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -45,6 +47,12 @@ public class SpaceInvadersActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(HighscoreActivity.class);
+            }
+        });
+        creditsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CreditsActivity.class);
             }
         });
     }

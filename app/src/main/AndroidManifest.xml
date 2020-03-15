@@ -23,6 +23,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.madproject.spaceinvaders.activities.HighscoreActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name="com.madproject.spaceinvaders.activities.CreditsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

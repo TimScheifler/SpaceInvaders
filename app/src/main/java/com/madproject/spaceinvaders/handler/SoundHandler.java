@@ -8,9 +8,7 @@ import com.madproject.spaceinvaders.R;
 public class SoundHandler {
 
     private static SoundPool soundPool;
-    private static int explosionSound;
     private static int shootSound;
-    private static int gameOverSound;
 
     private SharedPreferencesHandler sharedPreferencesHandler;
 
@@ -21,17 +19,11 @@ public class SoundHandler {
         sharedPreferencesHandler = new SharedPreferencesHandler(context);
 
         shootSound = soundPool.load(context, R.raw.laser,1);
-        explosionSound = soundPool.load(context, R.raw.explosion, 2);
     }
 
     public void playShootSound(){
         if(isSoundActivated())
             playSound(shootSound);
-    }
-
-    public void playExplosionSound(){
-        if(isSoundActivated())
-            playSound(explosionSound);
     }
 
     private void playSound(int sound){
