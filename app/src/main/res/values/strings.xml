@@ -7,6 +7,7 @@
     <string name="back">Back</string>
     <string name="reset_db">Reset DB</string>
     <string name="dying_text">Youve reached the following score: </string>
+    <string name="question_retry">Do you want to retry?</string>
     <string name="yes">Yes</string>
     <string name="save">Save</string>
     <string name="no">No</string>
@@ -14,10 +15,6 @@
     <string name="volume_off">Turn Volume Off</string>
     <string name="show_global_score">Show Global Score</string>
     <string name="show_local_score">Show Local Score</string>
-    <string name="do_you_want_to_retry">Do you want to retry?</string>
-    <string name="wave_text">Wave: </string>
-    <string name="language_german">German</string>
-    <string name="language_english">English</string>
-    <string name="activate_motion_control">Activate Motion Control</string>
-    <string name="deactivate_motion_control">Deactivate Motion Control</string>
+    <string name="wave_text">Wave</string>
+    <string name="points_text">Points</string>
 </resources>

@@ -14,6 +14,7 @@ import android.graphics.Paint;
 import android.os.Build;
 
 import com.madproject.spaceinvaders.CollisionDetectorSystem;
+import com.madproject.spaceinvaders.HealthPointHandler;
 import com.madproject.spaceinvaders.MenuBarHandler;
 import com.madproject.spaceinvaders.R;
 import com.madproject.spaceinvaders.Rescaler;
@@ -195,9 +196,9 @@ public class GameObjectHandler {
             paint.setColor(Color.WHITE);
 
             int xPos = (canvas.getWidth() / 2);
-            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
-            String waveText = context.getResources().getString(R.string.wave_text);
-            canvas.drawText(waveText+ " " +waveCounter, xPos, yPos, paint);
+            int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+            String wave_text = context.getResources().getString(R.string.wave_text);
+            canvas.drawText(wave_text + ": "+waveCounter, xPos, yPos, paint);
         }else{
             remainingWaveCounterTimeMS = waveCounterTimeMS;
             isTextPrinted = false;
@@ -220,9 +221,8 @@ public class GameObjectHandler {
         } else {
             builder = new AlertDialog.Builder(context);
         }
-        String reached_score_text = context.getResources().getString(R.string.dying_text);
-        String wanna_retry = context.getResources().getString(R.string.do_you_want_to_retry);
-        builder.setMessage(reached_score_text+player.getScore()+"\n"+wanna_retry);
+        String text = context.getResources().getString(R.string.dying_text);
+        builder.setMessage(text+player.getScore()+"\n"+"Do you want to retry?");
         builder.setCancelable(false);
         builder.setNegativeButton(R.string.no,
                 new DialogInterface.OnClickListener() {

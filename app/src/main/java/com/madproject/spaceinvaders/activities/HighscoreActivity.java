@@ -46,7 +46,7 @@ public class HighscoreActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.highscore_activity);
+        setContentView(R.layout.test);
 
         first = findViewById(R.id.first_place);
         second = findViewById(R.id.second_place);
@@ -59,7 +59,6 @@ public class HighscoreActivity extends ListActivity {
 
         playerScores = firebaseHelper.getScoretableFromFirebase();
         printLocalScore();
-        setTopThreeTextViews();
 
         executeListAdapter();
 
@@ -94,36 +93,26 @@ public class HighscoreActivity extends ListActivity {
 
     private void printLocalScore(){
         List<PlayerScore> playerScores = databaseManipulator.getResults();
-        Log.i("TEEEST",playerScores.size()+"");
+        stg1 = new String[playerScores.size()-3];
         String stg;
         int x = 0;
-        if(playerScores.size() > 2){
-            stg1 = new String[playerScores.size()-3];
-            int topThreeCounter = 0;
+        int topThreeCounter = 0;
+
+        if(playerScores.size()<3){
+            topThree[0] = "Player1 - 0 - 0";
+            topThree[1] = "Player2 - 0 - 0";
+            topThree[2] = "Player3 - 0 - 0";
+        }else{
             for(PlayerScore playerScore : playerScores){
                 stg = playerScore.getName()+" - "+playerScore.getWave()+" - "+playerScore.getScore();
                 if(topThreeCounter<3){
                     topThree[topThreeCounter] = stg;
                     topThreeCounter++;
                 }else{
-                    stg = x+4+". "+stg;
                     stg1[x] = stg;
                     x++;
                 }
             }
-        }else if(playerScores.size() == 2){
-            stg1 = new String[2];
-            PlayerScore first_place = playerScores.get(0);
-            PlayerScore second_place = playerScores.get(1);
-            topThree[0] = first_place.getName()+" - "+first_place.getWave()+" - "+first_place.getScore();
-            topThree[1] = second_place.getName()+" - "+second_place.getWave()+" - "+second_place.getScore();
-            topThree[2] = "Player3 - 0 - 0";
-        }else if(playerScores.size() == 1){
-            stg1 = new String[2];
-            PlayerScore first_place = playerScores.get(0);
-            topThree[0] = first_place.getName()+" - "+first_place.getWave()+" - "+first_place.getScore();
-            topThree[1] = "Player2 - 0 - 0";
-            topThree[2] = "Player3 - 0 - 0";
         }
     }
 
@@ -141,7 +130,6 @@ public class HighscoreActivity extends ListActivity {
                 topThree[topThreeCounter] = stg;
                 topThreeCounter++;
             }else{
-                stg = x+4+". "+stg;
                 stg1[x] = stg;
                 x++;
             }

@@ -20,7 +20,7 @@ public class MenuBarHandler {
     public MenuBarHandler(Context context, Player player){
 
         healthPointHandler = new HealthPointHandler(context, player, relativeHeight);
-        scorePointHandler = new ScorePointHandler(player);
+        scorePointHandler = new ScorePointHandler(context, player);
         Bitmap grey_tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.grey_bar);
         grey_bar = Bitmap.createScaledBitmap(grey_tmp, Resources.getSystem().getDisplayMetrics().widthPixels, relativeHeight, true);
     }

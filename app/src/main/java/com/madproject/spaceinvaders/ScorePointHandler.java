@@ -12,11 +12,12 @@ class ScorePointHandler {
 
     private Player player;
     private Paint paint;
+    private Context context;
 
     private int score = 0;
 
-    public ScorePointHandler(Player player){
-
+    public ScorePointHandler(Context context, Player player){
+        this.context = context;
         this.player = player;
 
         paint = new Paint();
@@ -27,7 +28,8 @@ class ScorePointHandler {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawText("Points: "+score,Resources.getSystem().getDisplayMetrics().widthPixels / 5,42, paint);
+        String point_text = context.getResources().getString(R.string.points_text);
+        canvas.drawText(point_text + ": " + score,Resources.getSystem().getDisplayMetrics().widthPixels / 5,42, paint);
     }
     public void update(){
         this.score = player.getScore();
