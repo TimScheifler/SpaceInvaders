@@ -42,6 +42,7 @@ public class GameActivity extends Activity implements View.OnTouchListener {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @SuppressLint("ClickableViewAccessibility")
