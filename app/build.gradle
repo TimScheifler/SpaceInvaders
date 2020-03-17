@@ -27,6 +27,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.highscores_activity.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.highscores_activity.espresso:espresso-core:3.1.1'
 }
